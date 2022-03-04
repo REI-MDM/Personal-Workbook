@@ -154,7 +154,7 @@ Dim AllVersioned As Boolean
     
 'Modules return type "1" here.  We will count the Modules
     For i = 1 To numitems
-        If TWB.VBProject.VBComponents.item(i).Type = 1 Or TWB.VBProject.VBComponents.item(i).Type = 3 Then
+        If TWB.VBProject.VBComponents.Item(i).Type = 1 Or TWB.VBProject.VBComponents.Item(i).Type = 3 Then
         nummodules = nummodules + 1
         End If
     Next i
@@ -171,8 +171,8 @@ ReDim InstalledModules(1 To nummodules, 1 To 4)
 'Fill in just ModuleName
     j = 1
     For i = 1 To numitems
-        If TWB.VBProject.VBComponents.item(i).Type = 1 Or TWB.VBProject.VBComponents.item(i).Type = 3 Then
-            CurMod = TWB.VBProject.VBComponents.item(i).Name
+        If TWB.VBProject.VBComponents.Item(i).Type = 1 Or TWB.VBProject.VBComponents.Item(i).Type = 3 Then
+            CurMod = TWB.VBProject.VBComponents.Item(i).Name
         'Module Name
             InstalledModules(j, 1) = CurMod
         'Default to "NO" for removal
@@ -338,7 +338,7 @@ Dim RemovedModules As String
         If InstalledModules(i, 4) = "YES" Then
         'This module is marked for removal
             TWB.VBProject.VBComponents.Remove _
-            TWB.VBProject.VBComponents.item(InstalledModules(i, 1))
+            TWB.VBProject.VBComponents.Item(InstalledModules(i, 1))
             RemovedModules = RemovedModules & " " & InstalledModules(i, 2)
         End If
     Next i
@@ -363,8 +363,8 @@ Dim UpdatedModules As String
     'Step through all items again
     For i = 1 To numitems
         'We only want to look at "Modules"
-        If TWB.VBProject.VBComponents.item(i).Type = 1 Then
-            CurMod = TWB.VBProject.VBComponents.item(i).Name
+        If TWB.VBProject.VBComponents.Item(i).Type = 1 Then
+            CurMod = TWB.VBProject.VBComponents.Item(i).Name
             'Parse this for the "BaseMod" Name if it is versioned
             If InStr(1, CurMod, "_v0") > 0 Then
                 'looks versioned, strip the versioning
@@ -375,7 +375,7 @@ Dim UpdatedModules As String
                 If AvailableModules(j, 2) = CurMod And _
                     AvailableModules(j, 4) = "YES" Then
                     CurMod = CurMod & "_v" & AvailableModules(j, 3)
-                    TWB.VBProject.VBComponents.item(i) _
+                    TWB.VBProject.VBComponents.Item(i) _
                         .Name = CurMod
                     'I should probably put escape conditions here, but I am
                     'feeling a little lazy, so just loop through everything

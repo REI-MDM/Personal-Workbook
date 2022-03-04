@@ -356,7 +356,7 @@ Application.ScreenUpdating = True
 
 '******************************************************************************
 End Sub
-Function IsFileOpen(fileName As String)
+Function IsFileOpen(Filename As String)
 '******************************************************************************
 ' MH Pulled this function off the internet
 ' It checks to see if a file is open.  Imagine that.
@@ -375,7 +375,7 @@ Function IsFileOpen(fileName As String)
      
     On Error Resume Next
     iFileNum = FreeFile()
-    Open fileName For Input Lock Read As #iFileNum
+    Open Filename For Input Lock Read As #iFileNum
     Close iFileNum
     iErr = err
     On Error GoTo 0

@@ -37,7 +37,7 @@ Dim newname As String
     Else
         'Open Book,
         Workbooks.CheckOut (NetLoc & fn)
-        Set archBook = Workbooks.Open(fileName:=NetLoc & fn)
+        Set archBook = Workbooks.Open(Filename:=NetLoc & fn)
         'check if there is no new data
         lastRow = archBook.Worksheets("Sheet1").Range("C" & Rows.Count).End(xlUp).row
         If lastRow = 3 Then
@@ -65,7 +65,7 @@ Dim newname As String
 
             'Reset the other book.
             'Workbooks.CheckOut (NetLoc & fn)
-            Set resetBook = Workbooks.Open(fileName:=NetLoc & fn)
+            Set resetBook = Workbooks.Open(Filename:=NetLoc & fn)
             resetBook.Worksheets("Sheet1").Range("A4:D" & lastRow).ClearContents
             resetBook.Worksheets("Sheet1").Range("F4:F950").ClearContents
             resetBook.Worksheets("Sheet1").Range("A1").Value = Format(newdate, "dddd, mmmm dd, yyyy")
@@ -99,7 +99,7 @@ Dim newname As String
     Else
         'Open Book,
         Workbooks.CheckOut (NetLoc & fn)
-        Set archBook = Workbooks.Open(fileName:=NetLoc & fn)
+        Set archBook = Workbooks.Open(Filename:=NetLoc & fn)
         'check if there is no new data
         lastRow = archBook.Worksheets("Perm Listings").Range("C" & Rows.Count).End(xlUp).row
         If lastRow = 8 Then
@@ -126,7 +126,7 @@ Dim newname As String
 
             'Reset the other book.
             'Workbooks.CheckOut (NetLoc & fn)
-            Set resetBook = Workbooks.Open(fileName:=NetLoc & fn)
+            Set resetBook = Workbooks.Open(Filename:=NetLoc & fn)
             resetBook.Worksheets("Perm Listings").Range("A9:P" & lastRow).ClearContents
             resetBook.CheckIn Savechanges:=True
             'resetBook.Close True

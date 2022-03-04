@@ -43,7 +43,7 @@ ImportCurrentError = "Sorry, you cannot install/update the currently " & _
     For i = 1 To numitems
     'item.type will return "1" for modules (unsure about userforms or classes)
     'and "100" for Worksheets and "ThisWorkbook" I believe.
-        If TWB.VBProject.VBComponents.item(i).Type = 1 Or TWB.VBProject.VBComponents.item(i).Type = 3 Then
+        If TWB.VBProject.VBComponents.Item(i).Type = 1 Or TWB.VBProject.VBComponents.Item(i).Type = 3 Then
             nummodules = nummodules + 1
         End If
     Next i
@@ -52,8 +52,8 @@ ReDim InstalledModules(1 To nummodules, 1 To 4)
 
     j = 1
     For i = 1 To numitems
-        If TWB.VBProject.VBComponents.item(i).Type = 1 Or TWB.VBProject.VBComponents.item(i).Type = 3 Then
-            CurMod = TWB.VBProject.VBComponents.item(i).Name
+        If TWB.VBProject.VBComponents.Item(i).Type = 1 Or TWB.VBProject.VBComponents.Item(i).Type = 3 Then
+            CurMod = TWB.VBProject.VBComponents.Item(i).Name
             'Module Name
             InstalledModules(j, 1) = CurMod
             'default to "NO" for removal
@@ -183,7 +183,7 @@ ReDim InstalledModules(1 To nummodules, 1 To 4)
             If InstalledModules(j, 4) = "YES" Then
             'we found one we need to remove
                 TWB.VBProject.VBComponents.Remove _
-                    TWB.VBProject.VBComponents.item _
+                    TWB.VBProject.VBComponents.Item _
                         (InstalledModules(j, 1))
             End If
         Next j
@@ -201,8 +201,8 @@ ReDim InstalledModules(1 To nummodules, 1 To 4)
 '******** Mods should be installed, let's ensure they are versioned ***********
 
     For i = 1 To numitems
-        If TWB.VBProject.VBComponents.item(i).Type = 1 Or TWB.VBProject.VBComponents.item(i).Type = 3 Then
-            CurMod = TWB.VBProject.VBComponents.item(i).Name
+        If TWB.VBProject.VBComponents.Item(i).Type = 1 Or TWB.VBProject.VBComponents.Item(i).Type = 3 Then
+            CurMod = TWB.VBProject.VBComponents.Item(i).Name
             If InStr(1, CurMod, "_v0") > 0 Then
             'looks versioned, strip the versioning.
                 CurMod = Left(CurMod, InStr(1, CurMod, "_v0") - 1)
@@ -212,7 +212,7 @@ ReDim InstalledModules(1 To nummodules, 1 To 4)
                 'Same basemod AND we installed it, - Let's append our filename
                 ' version.
                     CurMod = CurMod & "_v" & SelModules(j, 3)
-                    TWB.VBProject.VBComponents.item(i). _
+                    TWB.VBProject.VBComponents.Item(i). _
                         Name = CurMod
                 End If
             Next j

@@ -139,7 +139,7 @@ Dim mySht As Worksheet
     'On Error Resume Next
     'No longer saving files to old SP site
     'ExcelDoc.SaveAs Filename:=Completefpath_old, FileFormat:=ftype, CreateBackup:=False
-    ExcelDoc.SaveAs fileName:=Completefpath, FileFormat:=ftype, CreateBackup:=False
+    ExcelDoc.SaveAs Filename:=Completefpath, FileFormat:=ftype, CreateBackup:=False
     'On Error GoTo 0
 
 'A Fix for the "Properties not set" error
@@ -206,7 +206,7 @@ Dim mySht As Worksheet
 'open, you are looking at the server copy.
 
     Application.DisplayAlerts = False
-    ExcelDoc.SaveAs fileName:=fpath & wbname, _
+    ExcelDoc.SaveAs Filename:=fpath & wbname, _
         FileFormat:=ftype, CreateBackup:=False
     Application.DisplayAlerts = True
     Application.Calculation = xlAutomatic
@@ -682,7 +682,7 @@ d = 0
         dessheet.Range("D1") = "New Brand"
         dessheet.Range("D1").Interior.Color = 10079487
 
-        Workbooks.Open fileName:="\\reiweb.sharepoint.com@SSL\DavWWWRoot\sites\MasterDataManagement\Shared Documents\Daily Work Files\New_Brand_Request_Form.xlsm", UpdateLinks:=False, ReadOnly:=False
+        Workbooks.Open Filename:="\\reiweb.sharepoint.com@SSL\DavWWWRoot\sites\MasterDataManagement\Shared Documents\Daily Work Files\New_Brand_Request_Form.xlsm", UpdateLinks:=False, ReadOnly:=False
         Set BrandWB = Workbooks("New_Brand_Request_Form.xlsm")
         Set BrandRef = BrandWB.Worksheets("Brand Reference")
         lastRow = BrandRef.Range("A" & Rows.Count).End(xlUp).row
@@ -870,7 +870,7 @@ Private Function RangetoHTML(rng As Range)
     'Publish the sheet to a htm file
     With TempWB.PublishObjects.Add( _
          SourceType:=xlSourceRange, _
-         fileName:=TempFile, _
+         Filename:=TempFile, _
          Sheet:=TempWB.Sheets(1).Name, _
          source:=TempWB.Sheets(1).UsedRange.Address, _
          HtmlType:=xlHtmlStatic)

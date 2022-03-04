@@ -51,7 +51,7 @@ Dim temp(1 To 2) As Variant
     If AMRetails.Count = 0 Then GoTo garbage    'nothing to check
     
     'Check futures!
-    Set RWB = Workbooks.Open(fileName:=refLoc & refWB, _
+    Set RWB = Workbooks.Open(Filename:=refLoc & refWB, _
         UpdateLinks:=False, ReadOnly:=True)
     Set RefWS = RWB.Worksheets("Sheet1")
     Set futRetails = CreateObject("Scripting.dictionary")

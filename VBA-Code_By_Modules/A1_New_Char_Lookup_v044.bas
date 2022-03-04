@@ -1548,7 +1548,7 @@ Dim PFULast As Long
 'Check to see if we have any actual HTS codes to check
     If HTStoCheck Then
     'Grab the GoodHTSArray
-        Workbooks.Open fileName:=ValidHTSLoc, ReadOnly:=True
+        Workbooks.Open Filename:=ValidHTSLoc, ReadOnly:=True
         Set HTSWB = Workbooks("Valid_HTS.xlsb")
         endRow = HTSWB.Worksheets(1).Range("A65536").End(xlUp).row
         GoodHTSArray = HTSWB.Worksheets(1).Range("A2:A" & endRow).Value
