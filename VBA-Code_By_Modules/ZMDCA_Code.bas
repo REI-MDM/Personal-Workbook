@@ -161,6 +161,7 @@ Sub ZMDCA_Code()
     If Errors Then
         MsgBox "ERRORS! Check the log table under the article numbers."
     Else
+        Cells(4, 1).Clear
         MsgBox "All Prop 65 Updates Successful. Check the log table under the article numbers."
     End If
     
