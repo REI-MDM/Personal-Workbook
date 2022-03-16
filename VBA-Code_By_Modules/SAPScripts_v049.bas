@@ -34,11 +34,11 @@ i = 2
 'launch WSOA6
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwsoa6"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 'enter assortment on first row in the assortment field
 session.FindById("wnd[0]/usr/ssubSUB1:SAPLWSOWRSZ:1110/ctxtS_ASORT-LOW").Text = WS.Range("A" & i).Value
 'click execute
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 
 'Do stuff until the last row
 Do While WS.Range("A" & i) <> ""
@@ -46,13 +46,13 @@ Do While WS.Range("A" & i) <> ""
     session.FindById("wnd[0]/usr/cntlCUSTOM_CONTAINER/shellcont/shell/shellcont[0]/shell/shellcont[1]/shell[0]").PressButton "&FIND"
     Site = Format(WS.Range("C" & i), "0000000000")
     session.FindById("wnd[1]/usr/txtLVC_S_SEA-STRING").Text = Site
-    session.FindById("wnd[1]").SendVKey 0
+    session.FindById("wnd[1]").sendVKey 0
     
     'if site requested to be removed is not found in assortment get past pop up window and log that site was not in assortment
     On Error Resume Next
-    session.FindById("wnd[1]/tbar[0]/btn[12]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[12]").press
     If err.Number <> 0 Then
-        session.FindById("wnd[1]").SendVKey 0
+        session.FindById("wnd[1]").sendVKey 0
         WS.Range("D" & i) = "Site not found in Assortment"
         err.Clear
     End If
@@ -66,24 +66,24 @@ Do While WS.Range("A" & i) <> ""
     'save assortment and go onto next row
     'this currently loops poorly for same assortment removing multiple sites but I'll fix that later
     If WS.Range("A" & i) <> WS.Range("A" & i - 1) And WS.Range("A" & i) <> "" Then
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
         'if nothing was saved this hits enter so we can keep going
         If session.FindById(session.ActiveWindow.Name & "/sbar").MessageType = "E" Then
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If
         session.FindById("wnd[0]/usr/ssubSUB1:SAPLWSOWRSZ:1110/ctxtS_ASORT-LOW").Text = WS.Range("A" & i).Value
-        session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+        session.FindById("wnd[0]/tbar[1]/btn[8]").press
         On Error Resume Next
         If session.FindById("wnd[1]").Text = "Assortment Assignment Tool" Then
-            session.FindById("wnd[1]/usr/btnBUTTON_1").Press
+            session.FindById("wnd[1]/usr/btnBUTTON_1").press
         End If
         On Error GoTo 0
     End If
     
     'if last line we're done and can exit WSOA6
     If WS.Range("A" & i) = "" Then
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
-        session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
+        session.FindById("wnd[0]/tbar[0]/btn[15]").press
     End If
 Loop
 
@@ -112,14 +112,14 @@ Do While WS.Worksheets("Maintain Article").Range("A" & i) <> ""
 art = WS.Worksheets("Maintain Article").Range("A" & i)
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = art
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").Press
-session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").press
+session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").press
 session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/sub:SAPLCTMS:4000/ctxtRCTMS-MWERT[0,32]").Text = "NO"
 session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/sub:SAPLCTMS:4000/ctxtRCTMS-MWERT[0,32]").SetFocus
 session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/sub:SAPLCTMS:4000/ctxtRCTMS-MWERT[0,32]").CaretPosition = 2
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 i = i + 1
 
 Loop
@@ -394,14 +394,14 @@ End If
 If WS.Range("CS1") = "" Then
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     i = 7
     Do While WS.Range(Vendorcol & i) <> ""
         Vendor = WS.Range(Vendorcol & i)
         session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = Vendor
         session.FindById("wnd[0]/usr/ctxtRF02K-BUKRS").Text = ""
         session.FindById("wnd[0]/usr/ctxtRF02K-EKORG").Text = ""
-        session.FindById("wnd[0]").SendVKey 8
+        session.FindById("wnd[0]").sendVKey 8
         'session.findById("wnd[0]/usr/chkRF02K-D0110").Selected = True
         'session.findById("wnd[0]").sendVKey 0
         If session.FindById("wnd[0]/sbar").MessageType = "E" Then
@@ -416,7 +416,7 @@ If WS.Range("CS1") = "" Then
     
     'Check Contact Person Numbers and make sure they exist
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmap2"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     i = 7
     Do While WS.Range(Vendorcol & i) <> ""
     If UCase(WS.Range(ConActcol & i)) = "MODIFY" Or UCase(WS.Range(ConActcol & i)) = "REMOVE" Then
@@ -424,7 +424,7 @@ If WS.Range("CS1") = "" Then
             Vendor = WS.Range(Vendorcol & i)
     
             session.FindById("wnd[0]/usr/ctxt*KNVK-PARNR").Text = Contact
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         'Status bar message will be Error if the contact doesn't exist in SAP
         If session.FindById("wnd[0]/sbar").MessageType = "E" Then
             MsgBox "Looks like Contact Person #" & Contact & " (line " & i & ") does not exist. Check in with submitter to figure out what Contact it should be."
@@ -434,21 +434,21 @@ If WS.Range("CS1") = "" Then
         Else
             'in case submitter puts the wrong contact person number and it does exist we can check to confirm that contact belongs to the vendor specified
             If session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = Vendor Then
-                session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[11]").press
                 'SAP gives warning stat bar if multiple contacts exist with the same name click enter
                 'so we can get back to MAP2 home screen
                 If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-                    session.FindById("wnd[0]").SendVKey 0
+                    session.FindById("wnd[0]").sendVKey 0
                 End If
             Else
                 MsgBox "Contact " & Contact & " does not belong to Vendor " & Vendor & " Check in with submitter to confirm Contact Person number"
                 WS.Range(ConPersoncol & i).Interior.ColorIndex = 6
                 errorcnt = errorcnt + 1
-                session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[11]").press
                 'SAP gives warning stat bar if multiple contacts exist with the same name click enter
                 'so we can get back to MAP2 home screen
                 If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-                    session.FindById("wnd[0]").SendVKey 0
+                    session.FindById("wnd[0]").sendVKey 0
                 End If
             End If
         End If
@@ -525,7 +525,7 @@ End If
 errorcnt = 0
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 i = 7
 
 Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
@@ -539,20 +539,20 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
             session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = Vendor
             session.FindById("wnd[0]/usr/ctxtRF02K-BUKRS").Text = "1000"
             session.FindById("wnd[0]/usr/ctxtRF02K-EKORG").Text = "1000"
-            session.FindById("wnd[0]").SendVKey 8
+            session.FindById("wnd[0]").sendVKey 8
             session.FindById("wnd[0]/usr/chkRF02K-D0110").Selected = True
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         
             'loop to delete all ACH email then add all emails from request
             ei = 0
             ci = 0
             Do While WS.Range(Vendorcol & i).Value = Vendor And WS.Range(ACHEmailcol & i).Text <> "" 'is vendor number the same as last
-                session.FindById("wnd[0]/usr/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/btnG_ICON_SMTP").Press
+                session.FindById("wnd[0]/usr/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/btnG_ICON_SMTP").press
                 If ci = 0 Then 'have we deleted anything yet
                     'loop to delete all contacts
                     Do Until session.FindById("wnd[1]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0,0]").Text = "" 'Check this
                        session.FindById("wnd[1]/usr/tblSAPLSZA6T_CONTROL6").GetAbsoluteRow(0).Selected = True
-                       session.FindById("wnd[1]/tbar[0]/btn[14]").Press 'delete line
+                       session.FindById("wnd[1]/tbar[0]/btn[14]").press 'delete line
                     Loop
                 End If 'have we deleted anything yet
                 'loop to add new email addresses until there are no more emails/vendor changes/No adds if Remove
@@ -563,7 +563,7 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
                     WS.Range(ACHLogcol & i - 1).Interior.ColorIndex = 4
                     Else
                     session.FindById("wnd[1]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0," & ci & "]").Text = UCase(WS.Range(ACHEmailcol & i).Text)
-                    session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+                    session.FindById("wnd[1]/tbar[0]/btn[13]").press
                 If ci = 2 Then 'set position of next email after add button is hit
                     ci = 2
                     Else
@@ -576,8 +576,8 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
                 
             Loop 'is vendor number the same as last
             
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press ' ok code back to address page
-            session.FindById("wnd[0]/tbar[0]/btn[11]").Press 'lets end xk02 session to go on to finish all ACH address page stuff
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press ' ok code back to address page
+            session.FindById("wnd[0]/tbar[0]/btn[11]").press 'lets end xk02 session to go on to finish all ACH address page stuff
         
         
         
@@ -604,12 +604,12 @@ ACHEndLog:
                 Loop
                 
                 'exit out of main window without saving vendor
-                session.FindById("wnd[0]/tbar[0]/btn[12]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[12]").press
                 If session.ActiveWindow.Name = "wnd[1]" Then
-                session.FindById("wnd[1]/usr/btnSPOP-OPTION1").Press
+                session.FindById("wnd[1]/usr/btnSPOP-OPTION1").press
                 End If
                 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-                session.FindById("wnd[0]").SendVKey 0
+                session.FindById("wnd[0]").sendVKey 0
                 
                 'log error in correct rows of the vendor
                 WS.Range(ACHLogcol & i - ei & ":" & ACHLogcol & i - 1) = "SAP SCRIPTING ERROR: " & PopUpMessage & " " & StatusBar
@@ -649,7 +649,7 @@ err.Clear
 On Error GoTo 0
 'On Error GoTo Removelog
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 i = 7
 Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
     Vendor = WS.Range(Vendorcol & i)
@@ -666,9 +666,9 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
                 session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = Vendor
                 session.FindById("wnd[0]/usr/ctxtRF02K-BUKRS").Text = "1000"
                 session.FindById("wnd[0]/usr/ctxtRF02K-EKORG").Text = "1000"
-                session.FindById("wnd[0]").SendVKey 8
+                session.FindById("wnd[0]").sendVKey 8
                 session.FindById("wnd[0]/usr/chkWRF02K-D0380").Selected = True
-                session.FindById("wnd[0]").SendVKey 0
+                session.FindById("wnd[0]").sendVKey 0
 'Lets automate this again...
                 Tableview = session.FindById("wnd[0]/usr/tblSAPMF02KTCTRL_ANSPRECHPARTNER").VisibleRowCount
                 Conti = 0
@@ -681,12 +681,12 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
                     UCase(session.FindById("wnd[0]/usr/tblSAPMF02KTCTRL_ANSPRECHPARTNER/txtKNVK-NAME1[2," & Conti & "]").Text) = UCase(WS.Range(LastNamecol & i).Text) And _
                     session.FindById("wnd[0]/usr/tblSAPMF02KTCTRL_ANSPRECHPARTNER/ctxtKNVK-ABTNR[4," & Conti & "]").Text = Left(WS.Range(Departcol & i).Text, 4) Then
                         session.FindById("wnd[0]/usr/tblSAPMF02KTCTRL_ANSPRECHPARTNER/txtKNVK-NAMEV[1," & Conti & "]").SetFocus
-                        session.FindById("wnd[0]/tbar[1]/btn[2]").Press
+                        session.FindById("wnd[0]/tbar[1]/btn[2]").press
 'does contact person number match what is on request?
 'if Contact number is correct go back check that SAP table
 'is in the same position and if so delete contact
                         If session.FindById("wnd[0]/usr/txtKNVK-PARNR").Text = WS.Range(ConPersoncol & i).Text Then
-                            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                            session.FindById("wnd[0]/tbar[0]/btn[3]").press
 'if Contact number is correct go back check that SAP table
 'is in the same position and if so delete contact
                             
@@ -694,8 +694,8 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
                     UCase(session.FindById("wnd[0]/usr/tblSAPMF02KTCTRL_ANSPRECHPARTNER/txtKNVK-NAME1[2," & Conti & "]").Text) = UCase(WS.Range(LastNamecol & i).Text) And _
                     session.FindById("wnd[0]/usr/tblSAPMF02KTCTRL_ANSPRECHPARTNER/ctxtKNVK-ABTNR[4," & Conti & "]").Text = Left(WS.Range(Departcol & i).Text, 4) Then
                                 session.FindById("wnd[0]/usr/tblSAPMF02KTCTRL_ANSPRECHPARTNER/txtKNVK-NAMEV[1," & Conti & "]").SetFocus
-                                session.FindById("wnd[0]/tbar[1]/btn[14]").Press
-                                session.FindById("wnd[1]/usr/btnSPOP-OPTION1").Press
+                                session.FindById("wnd[0]/tbar[1]/btn[14]").press
+                                session.FindById("wnd[1]/usr/btnSPOP-OPTION1").press
                                 WS.Range(RemovalLogcol & i) = "Success: Contact " & WS.Range(ConPersoncol & i).Text & " was removed automatically at " & Format(Now, "mm/dd/yyyy hh:nn")
                                 WS.Range(RemovalLogcol & i).Interior.ColorIndex = 4
                                 Exit Do
@@ -715,12 +715,12 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
                             WS.Range(RemovalLogcol & i) = "Error: Contact number did not match with given First Name, Last Name, and Dept." & _
                                                             "Contact number was " & session.FindById("wnd[0]/usr/txtKNVK-PARNR").Text
                             WS.Range(RemovalLogcol & i).Interior.ColorIndex = 3
-                            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                            session.FindById("wnd[0]/tbar[0]/btn[3]").press
                             Conti = Conti + 1
 'if we reached end of table view page down and set contact incremintor to 0 again
                             If Conti = Tableview Then
                             Conti = 0
-                            session.FindById("wnd[0]").SendVKey 82
+                            session.FindById("wnd[0]").sendVKey 82
                             End If
                         End If 'does contact number match
                     Else
@@ -728,7 +728,7 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
 'if we reached end of table view page down and set contact incremintor to 0 again
                         If Conti = Tableview Then
                         Conti = 0
-                        session.FindById("wnd[0]").SendVKey 82
+                        session.FindById("wnd[0]").sendVKey 82
                         End If
                     
                     
@@ -736,7 +736,7 @@ Do While WS.Range(Vendorcol & i) <> "" 'is there a vendor in vendor row
                     End If 'do FN, LN, dept match
                 Loop
                 
-                session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[11]").press
                 
                 If WS.Range(RemovalLogcol & i) = "" Then
                     WS.Range(RemovalLogcol & i) = "Error: No Contact found matching:" & _
@@ -779,7 +779,7 @@ End If
 
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmap1"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 i = 7
 Do While WS.Range(Vendorcol & i) <> ""
     Vendor = WS.Range(Vendorcol & i)
@@ -788,7 +788,7 @@ Do While WS.Range(Vendorcol & i) <> ""
     Else
         If UCase(WS.Range(ConActcol & i)) = "ADD" Then 'Add for this vendor?
             session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = Vendor
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
     
             If WS.Range(Departcol & i) <> "" And Left(WS.Range(Departcol & i).Text, 4) <> "0000" Then 'Department
                 session.FindById("wnd[0]/usr/ctxtKNVK-ABTNR").Text = Left(WS.Range(Departcol & i), 4)
@@ -817,11 +817,11 @@ Do While WS.Range(Vendorcol & i) <> ""
             'add multiple emails for new contact
             ei = 0
             ci = 0
-            session.FindById("wnd[0]/usr/subADDRESS:SAPLSZA5:0900/btnG_ICON_SMTP").Press
+            session.FindById("wnd[0]/usr/subADDRESS:SAPLSZA5:0900/btnG_ICON_SMTP").press
             'loop to add new email addresses until there are no more emails/vendor changes/No adds if Remove
             Do While WS.Range(FirstNamecol & i).Text & "|" & WS.Range(LastNamecol & i).Text & "|" & WS.Range(Departcol & i).Text = ContactName And WS.Range(Emailcol & i).Text <> "" And WS.Range(Vendorcol & i).Value = Vendor
                 session.FindById("wnd[1]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0," & ci & "]").Text = UCase(WS.Range(Emailcol & i).Text)
-                session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+                session.FindById("wnd[1]/tbar[0]/btn[13]").press
             If ci = 2 Then 'set position of next email after add button is hit
                 ci = 2
                 Else
@@ -834,15 +834,15 @@ Do While WS.Range(Vendorcol & i) <> ""
                 'reset i
                 i = i - ei
             
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
             
     
             If Left(WS.Range(Departcol & i).Text, 4) = "0007" Then 'Is this a returns vendor?
-                session.FindById("wnd[0]/tbar[1]/btn[18]").Press
+                session.FindById("wnd[0]/tbar[1]/btn[18]").press
                 'enter country code first cause it is a required field and SAP needs those filled out before an other button is clicked
                 session.FindById("wnd[1]/usr/ctxtADDR1_DATA-COUNTRY").Text = WS.Range(RCCountrycol & i)
                 'open up all data fields in SAP view. We need this for CO and Street 2
-                session.FindById("wnd[1]/tbar[0]/btn[6]").Press
+                session.FindById("wnd[1]/tbar[0]/btn[6]").press
                 session.FindById("wnd[1]/usr/txtADDR1_DATA-STREET").Text = WS.Range(RCStreetcol & i)
                 session.FindById("wnd[1]/usr/txtADDR1_DATA-STR_SUPPL1").Text = WS.Range(RCStreet2col & i).Text
                 session.FindById("wnd[1]/usr/txtADDR1_DATA-STR_SUPPL2").Text = WS.Range(RCStreet3col & i).Text
@@ -861,13 +861,13 @@ Do While WS.Range(Vendorcol & i) <> ""
                 session.FindById("wnd[1]/usr/txtSZA1_D0100-TEL_EXTENS").Text = WS.Range(RCTeleExtcol & i)
                 session.FindById("wnd[1]/usr/txtSZA1_D0100-FAX_NUMBER").Text = WS.Range(RCFaxcol & i)
                 session.FindById("wnd[1]/usr/txtSZA1_D0100-FAX_EXTENS").Text = WS.Range(RCFaxExtcol & i)
-                session.FindById("wnd[1]/usr/btnG_ICON_SMTP").Press
+                session.FindById("wnd[1]/usr/btnG_ICON_SMTP").press
                 session.FindById("wnd[2]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0,0]").Text = WS.Range(RCEmailcol & i)
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
-                session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
+                session.FindById("wnd[1]/tbar[0]/btn[0]").press
             End If
     
-            session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[11]").press
             
             
             'Log Some stuff
@@ -900,17 +900,17 @@ AddConLog:
                     session.FindById(session.ActiveWindow.Name).Close
                     'if we errored in Business address popup we sometimes get a pop up confirming exiting
                     If session.FindById(session.ActiveWindow.Name).Text = "Cancel Address Editing" Then
-                        session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").Press
+                        session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").press
                     ElseIf session.FindById(session.ActiveWindow.Name).Text = "Error" Then
                         session.FindById(session.ActiveWindow.Name).Close
                     End If
                 Loop
                 
                 'now we are at contact page and we need to exit out of main window without saving vendor
-                session.FindById("wnd[0]/tbar[0]/btn[12]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[12]").press
                 'sometimes we get popup confirming exit. if we get that click ok to exit without saving
                 If session.FindById(session.ActiveWindow.Name).Text = "Cancel vendor" Then
-                session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").Press
+                session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").press
                 End If
                 
                 'log error in correct rows of the vendor
@@ -964,7 +964,7 @@ End If
 
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmap2"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 i = 7
 Do While WS.Range(Vendorcol & i) <> ""
     
@@ -975,7 +975,7 @@ Do While WS.Range(Vendorcol & i) <> ""
         If UCase(WS.Range(ConActcol & i)) = "MODIFY" Then 'Modify on this row
             Contact = WS.Range(ConPersoncol & i).Value
             session.FindById("wnd[0]/usr/ctxt*KNVK-PARNR").Text = Contact
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             
             'There should be no reason to modify the department. A new contact should be created
 '            If WS.Range(Departcol & i) <> "" And Left(WS.Range(Departcol & i).Text, 4) <> "0000" Then 'Department
@@ -1052,10 +1052,10 @@ Do While WS.Range(Vendorcol & i) <> ""
                       
             If Left(WS.Range(Departcol & i).Text, 4) = "0007" Then 'Is this a returns vendor?
                 'go to business address screen
-                session.FindById("wnd[0]/tbar[1]/btn[18]").Press
+                session.FindById("wnd[0]/tbar[1]/btn[18]").press
                 'sometimes a warning in status bar needs a second okay if there are multiple contacts with the same name
                 If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-                    session.FindById("wnd[0]").SendVKey 0
+                    session.FindById("wnd[0]").sendVKey 0
                 End If
                 
                 'Country Code is a required field and must be filled out before we do the next step
@@ -1064,7 +1064,7 @@ Do While WS.Range(Vendorcol & i) <> ""
                 End If
                 
                'open up all data fields in SAP view. We need this for CO and Street 2
-                session.FindById("wnd[1]/tbar[0]/btn[6]").Press
+                session.FindById("wnd[1]/tbar[0]/btn[6]").press
                                    
                 If WS.Range(RCStreetcol & i) <> "" Then 'Returns contact Street
                     If WS.Range(RCStreetcol & i) = "REMOVE" Then
@@ -1178,18 +1178,18 @@ Do While WS.Range(Vendorcol & i) <> ""
                     Do While WS.Range(ConPersoncol & i).Value = Contact 'is contact number the same as last
                     
                         If WS.Range(RCEmailcol & i).Text <> "" Then 'RC contact email is updating
-                            session.FindById("wnd[1]/usr/btnG_ICON_SMTP").Press
+                            session.FindById("wnd[1]/usr/btnG_ICON_SMTP").press
                             If ci = 0 Then 'have we deleted anything yet
                                 'loop to delete all contacts
                                 Do Until session.FindById("wnd[2]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0,0]").Text = "" 'Check this
                                    session.FindById("wnd[2]/usr/tblSAPLSZA6T_CONTROL6").GetAbsoluteRow(0).Selected = True
-                                   session.FindById("wnd[2]/tbar[0]/btn[14]").Press 'delete line
+                                   session.FindById("wnd[2]/tbar[0]/btn[14]").press 'delete line
                                 Loop
                             End If 'have we deleted anything yet
                             'loop to add new email addresses until there are no more emails/vendor changes/No adds if Remove
                             Do While WS.Range(RCEmailcol & i).Text <> "" And WS.Range(ConPersoncol & i).Value = Contact
                                 session.FindById("wnd[2]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0," & ci & "]").Text = UCase(WS.Range(RCEmailcol & i).Text)
-                                session.FindById("wnd[2]/tbar[0]/btn[13]").Press
+                                session.FindById("wnd[2]/tbar[0]/btn[13]").press
                             If ci = 2 Then 'set position of next email after add button is hit
                                 ci = 2
                                 Else
@@ -1210,28 +1210,28 @@ Do While WS.Range(Vendorcol & i) <> ""
                 End If 'RCemail isn't blank end
                 
                     If ci <> 0 Then
-                        session.FindById("wnd[2]/tbar[0]/btn[0]").Press ' ok code back to business address page cause email work was done
+                        session.FindById("wnd[2]/tbar[0]/btn[0]").press ' ok code back to business address page cause email work was done
                     End If
                     
-                    session.FindById("wnd[1]/tbar[0]/btn[0]").Press 'ok code to save business address page work and go back to contact
+                    session.FindById("wnd[1]/tbar[0]/btn[0]").press 'ok code to save business address page work and go back to contact
                     
             End If 'Dept is 0007 end
             
             ci = 0
             ei1 = 0
             If WS.Range(Emailcol & i).Text <> "" Then 'Contact email is updating
-                session.FindById("wnd[0]/usr/subADDRESS:SAPLSZA5:0900/btnG_ICON_SMTP").Press
+                session.FindById("wnd[0]/usr/subADDRESS:SAPLSZA5:0900/btnG_ICON_SMTP").press
                 If ci = 0 Then 'have we deleted anything yet
                     'loop to delete all contacts
                     Do Until session.FindById("wnd[1]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0,0]").Text = "" 'Check this
                        session.FindById("wnd[1]/usr/tblSAPLSZA6T_CONTROL6").GetAbsoluteRow(0).Selected = True
-                       session.FindById("wnd[1]/tbar[0]/btn[14]").Press 'delete line
+                       session.FindById("wnd[1]/tbar[0]/btn[14]").press 'delete line
                     Loop
                 End If 'have we deleted anything yet
                 'loop to add new email addresses until there are no more emails/vendor changes/No adds if Remove
                 Do While WS.Range(Emailcol & i).Text <> "" And WS.Range(ConPersoncol & i).Value = Contact
                     session.FindById("wnd[1]/usr/tblSAPLSZA6T_CONTROL6/txtADSMTP-SMTP_ADDR[0," & ci & "]").Text = UCase(WS.Range(Emailcol & i).Text)
-                    session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+                    session.FindById("wnd[1]/tbar[0]/btn[13]").press
                 If ci = 2 Then 'set position of next email after add button is hit
                     ci = 2
                     Else
@@ -1246,11 +1246,11 @@ Do While WS.Range(Vendorcol & i) <> ""
             i = i - ei1
             
             If ci <> 0 Then
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press ' ok code back to address page cause email work was done
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press ' ok code back to address page cause email work was done
             End If
-            session.FindById("wnd[0]/tbar[0]/btn[11]").Press ' Save code to exit MAP2 session and work on next lines
+            session.FindById("wnd[0]/tbar[0]/btn[11]").press ' Save code to exit MAP2 session and work on next lines
             If session.FindById("wnd[0]/sbar").Text Like "*already exists*" Then
-                session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[11]").press
             End If
             
         
@@ -1287,17 +1287,17 @@ ModifyErrorLog:
                     session.FindById(session.ActiveWindow.Name).Close
                     'if we errored in Business address popup we sometimes get a pop up confirming exiting
                     If session.FindById(session.ActiveWindow.Name).Text = "Cancel Address Editing" Then
-                        session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").Press
+                        session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").press
                     ElseIf session.FindById(session.ActiveWindow.Name).Text = "Error" Then
                         session.FindById(session.ActiveWindow.Name).Close
                     End If
                 Loop
                 
                 'now we are at contact page and we need to exit out of main window without saving vendor
-                session.FindById("wnd[0]/tbar[0]/btn[12]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[12]").press
                 'sometimes we get popup confirming exit. if we get that click ok to exit without saving
                 If session.FindById(session.ActiveWindow.Name).Text = "Cancel vendor" Then
-                session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").Press
+                session.FindById(session.ActiveWindow.Name & "/usr/btnSPOP-OPTION1").press
                 End If
                 
                 
@@ -1376,7 +1376,7 @@ WS.Columns(ModifyLogcol).AutoFit
 'End Step 4
 '**************************************************************************************************
 'exit back to home screen and end connection with SAP
-session.FindById("wnd[0]/tbar[0]/btn[12]").Press
+session.FindById("wnd[0]/tbar[0]/btn[12]").press
 Call EndSAPCON
 With WS.Range(ACHLogcol & "1:" & ModifyLogcol & "1")
     .Interior.Color = 52479
@@ -1400,23 +1400,23 @@ MsgBox ("not working yet. exiting sub")
 Exit Sub
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwak16"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtRT_AKTNR").Text = "7965"
-session.FindById("wnd[0]/usr/btn%_RT_MATNR_%_APP_%-VALU_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+session.FindById("wnd[0]/usr/btn%_RT_MATNR_%_APP_%-VALU_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[24]").press
+session.FindById("wnd[1]/tbar[0]/btn[8]").press
 session.FindById("wnd[0]/mbar/menu[0]/menu[2]").Select
-session.FindById("wnd[1]/tbar[0]/btn[13]").Press
-session.FindById("wnd[1]/usr/btnSOFORT_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[11]").Press
+session.FindById("wnd[1]/tbar[0]/btn[13]").press
+session.FindById("wnd[1]/usr/btnSOFORT_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[11]").press
 session.FindById("wnd[0]/usr/ctxtRT_AKTNR").Text = "7966"
 session.FindById("wnd[0]/usr/ctxtRT_MATNR-LOW").SetFocus
 session.FindById("wnd[0]/usr/ctxtRT_MATNR-LOW").CaretPosition = 10
-session.FindById("wnd[0]/usr/btn%_RT_MATNR_%_APP_%-VALU_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-session.FindById("wnd[1]/tbar[0]/btn[8]").Press
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/usr/btn%_RT_MATNR_%_APP_%-VALU_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[16]").press
+session.FindById("wnd[1]/tbar[0]/btn[24]").press
+session.FindById("wnd[1]/tbar[0]/btn[8]").press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 End Sub
 
 Private Sub p_TestingErrors()
@@ -1431,24 +1431,24 @@ End If
 
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "map2"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxt*KNVK-PARNR").Text = "2950"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[18]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[18]").press
 Debug.Print session.FindById("wnd[0]/sbar[0]").Text
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[1]/usr/txtADDR1_DATA-POST_CODE1").Text = "3291"
 session.FindById("wnd[1]/usr/txtADDR1_DATA-POST_CODE1").SetFocus
 session.FindById("wnd[1]/usr/txtADDR1_DATA-POST_CODE1").CaretPosition = 0
-session.FindById("wnd[1]/usr/btnG_ICON_SMTP").Press
-session.FindById("wnd[2]/tbar[0]/btn[1]").Press
+session.FindById("wnd[1]/usr/btnG_ICON_SMTP").press
+session.FindById("wnd[2]/tbar[0]/btn[1]").press
 session.FindById("wnd[0]/shellcont").Close
-session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+session.FindById("wnd[2]/tbar[0]/btn[0]").press
 session.FindById("wnd[1]/usr/txtADDR1_DATA-POST_CODE1").Text = "93291"
 session.FindById("wnd[1]/usr/txtADDR1_DATA-POST_CODE1").CaretPosition = 1
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
-session.FindById("wnd[0]/tbar[0]/btn[12]").Press
-session.FindById("wnd[1]/usr/btnSPOP-OPTION1").Press
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
+session.FindById("wnd[0]/tbar[0]/btn[12]").press
+session.FindById("wnd[1]/usr/btnSPOP-OPTION1").press
 Call EndSAPCON
 
 End Sub
@@ -1490,11 +1490,11 @@ lastRow = NewBrandWS.Range("I10000").End(xlUp).row
 
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmass"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtMASSSCREEN-OBJECT").Text = "bus1001001"
 session.FindById("wnd[0]/usr/ctxtMASSSCREEN-VARNAME").Text = "brand"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 
 'copy generics and set brand variable until the end of generics on sheet in row G
 Do Until NewLR = lastRow
@@ -1511,15 +1511,15 @@ Brand = NewBrandWS.Range("F" & NewLR)
     NewLR = NewLR - 1
     NewBrandWS.Range("G" & OldLR & ":G" & NewLR).Copy
     
-    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").Press 'multiple selection button
-    session.FindById("wnd[1]/tbar[0]/btn[16]").Press 'trashcan button
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press 'paste button
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press 'excecute on generic selection window
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press 'excecute on mass window
+    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").press 'multiple selection button
+    session.FindById("wnd[1]/tbar[0]/btn[16]").press 'trashcan button
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press 'paste button
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press 'excecute on generic selection window
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press 'excecute on mass window
     session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/ctxtHEADER_STRUC-FIELD2-VALUE-LEFT[2,0]").Text = Brand 'put brand in dropdown field
-    session.FindById("wnd[0]").SendVKey 0 'hit enter
-    session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").Press 'dropdown value to all in mass
-    session.FindById("wnd[0]/tbar[0]/btn[11]").Press 'save
+    session.FindById("wnd[0]").sendVKey 0 'hit enter
+    session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").press 'dropdown value to all in mass
+    session.FindById("wnd[0]/tbar[0]/btn[11]").press 'save
     If session.FindById("wnd[0]/usr/txtNR_E").Text = "0" Then
     'great mass ran successfully
     Else
@@ -1528,8 +1528,8 @@ Brand = NewBrandWS.Range("F" & NewLR)
         MsgBox session.FindById("wnd[0]/usr/txtNR_E").Text & " Articles Errored on the Mass job for " & Brand & vbCrLf & vbCrLf & _
             "Error message dropped in Column M of the brands that need to be run again."
     End If
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press 'back button to mass
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press 'back button to brand mass page so we can do it again
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press 'back button to mass
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press 'back button to brand mass page so we can do it again
     'reset NewLR variable after we copy pasted
     NewLR = NewLR + 1
     'exit loops if we're at bottom of articles
@@ -1546,32 +1546,32 @@ Application.CutCopyMode = False
 
 'Get all variants for ZBD10 push
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzse16n"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtGD-TAB").Text = "mara"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[18]").Press
-session.FindById("wnd[0]").SendVKey 71
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[18]").press
+session.FindById("wnd[0]").sendVKey 71
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[0,21]").Text = "matnr"
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[0,21]").CaretPosition = 5
-session.FindById("wnd[1]").SendVKey 0
+session.FindById("wnd[1]").sendVKey 0
 session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/chkGS_SELFIELDS-MARK[5,0]").Selected = True
 session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/chkGS_SELFIELDS-MARK[5,0]").SetFocus
-session.FindById("wnd[0]").SendVKey 71
+session.FindById("wnd[0]").sendVKey 71
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[0,21]").Text = "satnr"
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[0,21]").CaretPosition = 5
-session.FindById("wnd[1]").SendVKey 0
+session.FindById("wnd[1]").sendVKey 0
 session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/chkGS_SELFIELDS-MARK[5,0]").Selected = True
 session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,0]").SetFocus
-session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,0]").Press
+session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,0]").press
 NewBrandWS.Range("G" & startRow & ":G" & lastRow).Copy
-session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-session.FindById("wnd[1]/tbar[0]/btn[8]").Press
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[1]/tbar[0]/btn[24]").press
+session.FindById("wnd[1]/tbar[0]/btn[8]").press
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
 session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").SelectContextMenuItem "&PC"
 session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").Select
 session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 ATPWS.activate
 ATPWS.Cells.ClearContents
@@ -1579,7 +1579,7 @@ ATPWS.Range("A1").PasteSpecial
 ATPWS.Columns("A:A").Select
 Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
     TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
-    Semicolon:=False, Comma:=False, space:=False, Other:=True, OtherChar _
+    Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
     :="|", FieldInfo:=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1)), _
     TrailingMinusNumbers:=True
 ATPWS.Range("1:5").Delete
@@ -1587,19 +1587,19 @@ ATPWS.Range("B1:B" & ATPWS.Range("B1").End(xlDown).row).Copy
 
 
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzbd10"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/usr/btn%_S_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/usr/btn%_S_MATNR_%_APP_%-VALU_PUSH").press
 ATPWS.Range("B1:B" & ATPWS.Range("B1").End(xlDown).row).Copy
-session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").press
+session.FindById("wnd[1]/tbar[0]/btn[24]").press
 ATPWS.Range("C1:C" & ATPWS.Range("C1").End(xlDown).row).Copy
-session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+session.FindById("wnd[1]/tbar[0]/btn[24]").press
+session.FindById("wnd[1]/tbar[0]/btn[8]").press
 session.FindById("wnd[0]/mbar/menu[0]/menu[2]").Select
-session.FindById("wnd[1]/tbar[0]/btn[13]").Press
-session.FindById("wnd[1]/usr/btnSOFORT_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[11]").Press
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[1]/tbar[0]/btn[13]").press
+session.FindById("wnd[1]/usr/btnSOFORT_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[11]").press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 Call EndSAPCON
 
@@ -1668,7 +1668,7 @@ If session Is Nothing Then
 End If
     
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwsm3"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     
     For i = 1 To lastcol Step 3
         'if we are working with a future end date, WSM3.
@@ -1691,10 +1691,10 @@ End If
             Selection.Copy
             
             'input all sites
-            session.FindById("wnd[0]/usr/btn%_ASORT_%_APP_%-VALU_PUSH").Press
-            session.FindById("wnd[1]/tbar[0]/btn[16]").Press        'delete previous entry
-            session.FindById("wnd[1]/tbar[0]/btn[24]").Press        'paste from clipboard
-            session.FindById("wnd[1]/tbar[0]/btn[8]").Press         'Execute
+            session.FindById("wnd[0]/usr/btn%_ASORT_%_APP_%-VALU_PUSH").press
+            session.FindById("wnd[1]/tbar[0]/btn[16]").press        'delete previous entry
+            session.FindById("wnd[1]/tbar[0]/btn[24]").press        'paste from clipboard
+            session.FindById("wnd[1]/tbar[0]/btn[8]").press         'Execute
             
             'copy all articles into clipboard
             lastRow = sortwS.Cells(Rows.Count, i).End(xlUp).row
@@ -1702,22 +1702,22 @@ End If
             Selection.Copy
             
             'input all articles
-            session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
-            session.FindById("wnd[1]/tbar[0]/btn[16]").Press        'delete previous entry
-            session.FindById("wnd[1]/tbar[0]/btn[24]").Press        'paste from clipboard
-            session.FindById("wnd[1]/tbar[0]/btn[8]").Press         'Execute
+            session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").press
+            session.FindById("wnd[1]/tbar[0]/btn[16]").press        'delete previous entry
+            session.FindById("wnd[1]/tbar[0]/btn[24]").press        'paste from clipboard
+            session.FindById("wnd[1]/tbar[0]/btn[8]").press         'Execute
             
             'execute (detect errors?)
-            session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+            session.FindById("wnd[0]/tbar[1]/btn[8]").press
             
             'back out to "starting screen"
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
         ElseIf sortwS.Cells(2, i + 1).Value < Now Then    'looks like we are ENDING VIF
             '***** WSE6 *****
                         
             'leave WSM3 for WSE6
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwse6"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             
             'enter starting site and article
             session.FindById("wnd[0]/usr/subSUB1:RWSORT48:1110/ctxtS_ASORT-LOW").Text = sortwS.Cells(3, i + 1).Value
@@ -1730,10 +1730,10 @@ End If
             Selection.Copy
             
             'paste in all sites
-            session.FindById("wnd[0]/usr/subSUB1:RWSORT48:1110/btn%_S_ASORT_%_APP_%-VALU_PUSH").Press
-            session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-            session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-            session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+            session.FindById("wnd[0]/usr/subSUB1:RWSORT48:1110/btn%_S_ASORT_%_APP_%-VALU_PUSH").press
+            session.FindById("wnd[1]/tbar[0]/btn[16]").press
+            session.FindById("wnd[1]/tbar[0]/btn[24]").press
+            session.FindById("wnd[1]/tbar[0]/btn[8]").press
             
             
             'copy full article list
@@ -1743,20 +1743,20 @@ End If
             Selection.Copy
             
             'Paste in all articles
-            session.FindById("wnd[0]/usr/subSUB1:RWSORT48:1110/btn%_S_MATNR_%_APP_%-VALU_PUSH").Press
-            session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-            session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-            session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+            session.FindById("wnd[0]/usr/subSUB1:RWSORT48:1110/btn%_S_MATNR_%_APP_%-VALU_PUSH").press
+            session.FindById("wnd[1]/tbar[0]/btn[16]").press
+            session.FindById("wnd[1]/tbar[0]/btn[24]").press
+            session.FindById("wnd[1]/tbar[0]/btn[8]").press
             
             'execute
-            session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+            session.FindById("wnd[0]/tbar[1]/btn[8]").press
             'select all
             session.FindById("wnd[0]/usr/cntlCONTAINER_0100/shellcont/shell").SelectAll
             'delete
             session.FindById("wnd[0]/usr/cntlCONTAINER_0100/shellcont/shell").PressToolbarButton "DELE"
             'back to wsm3
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwsm3"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If 'Checking for end date in current or future
         sortwS.Cells(1, i + 2).Value = "'<- Sent to SAP:"
         sortwS.Cells(2, i + 2).Value = Format(Now, "mm/dd/yyyy hh:mm:ss")
@@ -1764,7 +1764,7 @@ End If
     Next i
     
     'back out of WSM3
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
     'disconnect from SAP
     EndSAPCON
     
@@ -1816,13 +1816,13 @@ Dim chunkSize As Long   'number of articles we can process at a time
         lastRow = vifWS.Cells(Rows.Count, i).End(xlUp).row
         If lastRow > 1 Then
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmass_charval"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             
             'load up our processing defaults
             session.FindById("wnd[0]/usr/radGV_RBBTH").Select
             session.FindById("wnd[0]/usr/chkGV_CLSFD").Selected = True
             session.FindById("wnd[0]/usr/ctxtGV_ATNAM").Text = "PRODUCTSOURCEINDICATOR"
-            session.FindById("wnd[0]/usr/btnPB_EXP").Press
+            session.FindById("wnd[0]/usr/btnPB_EXP").press
             session.FindById("wnd[0]/usr/radGV_PRLL").Select                                'parallel
             session.FindById("wnd[0]/usr/radGV_ASYN").Select                                'Asynchronous
             session.FindById("wnd[0]/usr/txtGV_PRCNO").Text = "20"                          'num processes
@@ -1849,25 +1849,25 @@ Dim chunkSize As Long   'number of articles we can process at a time
                 Selection.Copy
                 
                 'paste articles into our multi-select
-                session.FindById("wnd[0]/usr/btn%_SO_MATNR_%_APP_%-VALU_PUSH").Press
-                session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-                session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-                session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+                session.FindById("wnd[0]/usr/btn%_SO_MATNR_%_APP_%-VALU_PUSH").press
+                session.FindById("wnd[1]/tbar[0]/btn[16]").press
+                session.FindById("wnd[1]/tbar[0]/btn[24]").press
+                session.FindById("wnd[1]/tbar[0]/btn[8]").press
                 
                 'execute
-                session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+                session.FindById("wnd[0]/tbar[1]/btn[8]").press
                 '"Save" button
-                session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[11]").press
                 
                 'unhandled error - no changes made.
                 
                 'Back out
-                session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[3]").press
                 startSelect = endSelect + 1
             Loop
             'back out
             'session.findById("wnd[0]/tbar[0]/btn[3]").press
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
         End If  'lastrow > 1
     Next i
     EndSAPCON
@@ -1921,7 +1921,7 @@ If session Is Nothing Then
 End If
 
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "mm42"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 
 'Loop through all lines of UOM and adjust Car and PAC on Basic Data tab in MM42 as needed
 For i = 12 To lastRow
@@ -1935,7 +1935,7 @@ For i = 12 To lastRow
         If Article < 999999 Then
             session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = Article
             session.FindById("wnd[0]/usr/ctxtRMMW1-LIFNR").Text = Vendor
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             For j = 0 To 3
             'If RP is greater than 1 it is adding or modifying an existing Car row. Loop through the
             'UOM matrix on Basic Data tab to figure out the correct action
@@ -1945,21 +1945,21 @@ For i = 12 To lastRow
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MEINH[0," & j & "]").Text = "car"
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/txtSMEINH-AZSUB[2," & j & "]").Text = RP
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MESUB[3," & j & "]").Text = "ea"
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "Car UOM added to " & Article & " at " & Format(Now(), "dd-mm-yyyy hh:nn:ss")
                     WS.Range("AC" & i).Interior.ColorIndex = 4
                     Exit For
                 'If we find a Carton Row lets update the quantity to new RP
                 ElseIf UCase(session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MEINH[0," & j & "]").Text) = "CAR" Then
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/txtSMEINH-AZSUB[2," & j & "]").Text = RP
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "Adjusted the existing Car UOM on " & Article & " at " & Format(Now(), "dd-mm-yyyy hh:nn:ss")
                     WS.Range("AC" & i).Interior.ColorIndex = 4
                     Exit For
                 'We should only ever have EA, PAC, and Car if we have more than that something is wrong...
                 ElseIf j = 3 Then
                     MsgBox Article & " has more than 4 Alt units of measure and Kevin didn't code for that because he didn't think that could happen. Skipping this Generic. Add Car UOM in MM42 Manually..."
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "This Generic was skipped because it has a bunch of weird Alt UOMs..."
                     WS.Range("AC" & i).Interior.ColorIndex = 3
                 End If
@@ -1967,15 +1967,15 @@ For i = 12 To lastRow
                 'Assuming that there is a car row if we are removing RP. Find Car row and delete it
                 If UCase(session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MEINH[0," & j & "]").Text) = "CAR" Then
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MEINH[0," & j & "]").SetFocus
-                    session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/btnME_DELETE").Press
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/btnME_DELETE").press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "Removed existing Car UOM on " & Article & " at " & Format(Now(), "dd-mm-yyyy hh:nn:ss")
                     WS.Range("AC" & i).Interior.ColorIndex = 4
                     Exit For
                 'We didn't find Car row something when wrong...
                 ElseIf j = 3 Then
                     MsgBox Article & " has more than 4 Alt units of measure and Kevin didn't code for that because he didn't think that could happen. Skipping this Generic. Add Car UOM in MM42 Manually..."
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "This Generic was skipped because it has a bunch of weird Alt UOMs..."
                     WS.Range("AC" & i).Interior.ColorIndex = 3
                 End If
@@ -1989,7 +1989,7 @@ For i = 12 To lastRow
         If Article < 999999 Then
             session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = Article
             session.FindById("wnd[0]/usr/ctxtRMMW1-LIFNR").Text = Vendor
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             For j = 0 To 3
             'If DC to Store is greater than 1 it is adding or modifying an existing PAC row. Loop through the
             'UOM matrix on Basic Data tab to figure out the correct action
@@ -2000,7 +2000,7 @@ For i = 12 To lastRow
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/txtSMEINH-AZSUB[2," & j & "]").Text = DCtoStore
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MESUB[3," & j & "]").Text = "EA"
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/radSMEINH-KZAUSME[6," & j & "]").Selected = True
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "PAC UOM added to " & Article & " at " & Format(Now(), "dd-mm-yyyy hh:nn:ss")
                     WS.Range("AC" & i).Interior.ColorIndex = 4
                     Exit For
@@ -2008,28 +2008,28 @@ For i = 12 To lastRow
                 ElseIf UCase(session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MEINH[0," & j & "]").Text) = "PAC" Then
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/txtSMEINH-AZSUB[2," & j & "]").Text = DCtoStore
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/radSMEINH-KZAUSME[6," & j & "]").Selected = True
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "Adjusted the existing PAC UOM on " & Article & " at " & Format(Now(), "dd-mm-yyyy hh:nn:ss")
                     WS.Range("AC" & i).Interior.ColorIndex = 4
                     Exit For
                 'We should only ever have EA, PAC, and Car if we have more than that something is wrong...
                 ElseIf j = 3 Then
                     MsgBox Article & " has more than 4 Alt units of measure and Kevin didn't code for that because he didn't think that could happen. Skipping this Generic. Add Car UOM in MM42 Manually..."
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "This Generic was skipped because it has a bunch of weird Alt UOMs..."
                     WS.Range("AC" & i).Interior.ColorIndex = 3
                 End If
             Else 'Remove DC to Store by changing radio button back to EA
                 If UCase(session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/ctxtSMEINH-MEINH[0," & j & "]").Text) = "PAC" Then
                     session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/radSMEINH-KZAUSME[6,0]").Selected = True
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "Removed existing PAC UOM on " & Article & " at " & Format(Now(), "dd-mm-yyyy hh:nn:ss")
                     WS.Range("AC" & i).Interior.ColorIndex = 4
                     Exit For
                 'We should only ever have EA, PAC, and Car if we have more than that something is wrong...
                 ElseIf j = 3 Then
                     MsgBox Article & " has more than 4 Alt units of measure and Kevin didn't code for that because he didn't think that could happen. Skipping this Generic. Add Car UOM in MM42 Manually..."
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     WS.Range("AC" & i) = "This Generic was skipped because it has a bunch of weird Alt UOMs..."
                     WS.Range("AC" & i).Interior.ColorIndex = 3
                 End If
@@ -2129,12 +2129,12 @@ End If
 'Mass, Bus3003, RP, Execute, Press multiple selection button for PIR
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmass"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtMASSSCREEN-OBJECT").Text = "bus3003"
 session.FindById("wnd[0]/usr/ctxtMASSSCREEN-VARNAME").Text = "rp"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
-session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
+session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").press
 
 'filter out No PIR rows (Field 4) and rows that don't have data in RP column (Field 15)
 WS.Range("$A$11:$CI$1000").AutoFilter Field:=4, Criteria1:="<>No PIR"
@@ -2146,19 +2146,19 @@ If AddRP Then
     WS.Range("$A$11:$CI$1000").AutoFilter Field:=15, Criteria1:=">1"
     lastRow = WS.Range("A1001").End(xlUp).row
     WS.Range("D12:D" & lastRow).Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
     'Fail safe to make sure we don't run mass on all PIRs if no PIR is entered
     If session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/ctxtMASSFREESEL-LOW[0,24]").Text <> "" Then
-        session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+        session.FindById("wnd[0]/tbar[1]/btn[8]").press
         'If the number of entries is greater than blah. Click "display all records" button on popup
         If session.ActiveWindow.Name = "wnd[1]" Then
-            session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").Press
+            session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").press
         End If
         'enter D050 in mass then drop it like its hot
         session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/ctxtHEADER_STRUC-FIELD5-VALUE-LEFT[4,0]").Text = "d050"
-        session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").Press
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
         'Check for errors
         If session.FindById("wnd[0]/usr/txtNR_E").Text = "0" Then
             WS.Range("AD12:AD" & lastRow).Interior.ColorIndex = 4
@@ -2169,12 +2169,12 @@ If AddRP Then
             MassErrors = MassErrors + 1
         End If
         'Back to RP Mass
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
     End If 'Fail safe to make sure we don't run mass on all PIRs if no PIR is entered
     'multiple selection, press delete to clear out for next set
-    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").press
+    session.FindById("wnd[1]/tbar[0]/btn[16]").press
     
     
     'set D050 RP rule for new Rounding Profiles for Variants
@@ -2183,19 +2183,19 @@ If AddRP Then
     'if there are add RP for Variants copy PIRs, Paste in Multiple selection, no PIRs exist for variants skip
     If WS.Range("A1001").End(xlUp).row > 11 Then
         WS.Range("D12:D" & lastRow).Copy
-        session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-        session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[24]").press
+        session.FindById("wnd[1]/tbar[0]/btn[8]").press
         'Fail safe to make sure we don't run mass on all PIRs if no PIR is entered
         If session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/ctxtMASSFREESEL-LOW[0,24]").Text <> "" Then
-            session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+            session.FindById("wnd[0]/tbar[1]/btn[8]").press
             'If the number of entries is greater than blah. Click "display all records" button on popup
             If session.ActiveWindow.Name = "wnd[1]" Then
-                session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").Press
+                session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").press
             End If
             'D050 in Mass and drop it like its hot
             session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/ctxtHEADER_STRUC-FIELD5-VALUE-LEFT[4,0]").Text = "d050"
-            session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").Press
-            session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+            session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").press
+            session.FindById("wnd[0]/tbar[0]/btn[11]").press
             'Check for errors and log accordingly
             If session.FindById("wnd[0]/usr/txtNR_E").Text = "0" Then
                 WS.Range("AE12:AE" & lastRow).Interior.ColorIndex = 4
@@ -2206,8 +2206,8 @@ If AddRP Then
                 MassErrors = MassErrors + 1
             End If
             'back to RP mass
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
         End If 'Don't run Mass if no PIRs are in low input
     End If 'Are there PIRs for Variants? Don't want to update all 2 Million PIRs...
 End If 'are there add RP
@@ -2221,21 +2221,21 @@ If RemoveRP Then
     WS.Range("$A$11:$CI$1000").AutoFilter Field:=15, Criteria1:="<=1"
     lastRow = WS.Range("A1001").End(xlUp).row
     WS.Range("D12:D" & lastRow).Copy
-    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").press
+    session.FindById("wnd[1]/tbar[0]/btn[16]").press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
     'Fail safe to make sure we don't run mass on all PIRs if no PIR is entered
     If session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/ctxtMASSFREESEL-LOW[0,24]").Text <> "" Then
-        session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+        session.FindById("wnd[0]/tbar[1]/btn[8]").press
         'If the number of entries is greater than blah. Click "display all records" button on popup
         If session.ActiveWindow.Name = "wnd[1]" Then
-            session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").Press
+            session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").press
         End If
         'remove RP and drop it like its hot
         session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/ctxtHEADER_STRUC-FIELD5-VALUE-LEFT[4,0]").Text = ""
-        session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").Press
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
         'Check for mass errors and log
         If session.FindById("wnd[0]/usr/txtNR_E").Text = "0" Then
             WS.Range("AF12:AF" & lastRow).Interior.ColorIndex = 4
@@ -2246,11 +2246,11 @@ If RemoveRP Then
             MassErrors = MassErrors + 1
         End If
         'back to RP mass and delete out multiple selection to get ready for variants remove RP
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
     End If
-    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+    session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").press
+    session.FindById("wnd[1]/tbar[0]/btn[16]").press
     
     
     
@@ -2260,19 +2260,19 @@ If RemoveRP Then
     'in case no PIRs exist for variants, copy filtered data, paste, execute
     If WS.Range("A1001").End(xlUp).row > 11 Then
         WS.Range("D12:D" & lastRow).Copy
-        session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-        session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[24]").press
+        session.FindById("wnd[1]/tbar[0]/btn[8]").press
         'Fail safe to make sure we don't run mass on all PIRs if no PIR is entered
         If session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/ctxtMASSFREESEL-LOW[0,24]").Text <> "" Then
-            session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+            session.FindById("wnd[0]/tbar[1]/btn[8]").press
             'If the number of entries is greater than blah. Click "display all records" button on popup
             If session.ActiveWindow.Name = "wnd[1]" Then
-                session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").Press
+                session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").press
             End If
             'Remove D050 and drop it like its hot
             session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/ctxtHEADER_STRUC-FIELD5-VALUE-LEFT[4,0]").Text = "d050"
-            session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").Press
-            session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+            session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").press
+            session.FindById("wnd[0]/tbar[0]/btn[11]").press
             'Check for Mass errors
             If session.FindById("wnd[0]/usr/txtNR_E").Text = "0" Then
                 WS.Range("AG12:AG" & lastRow).Interior.ColorIndex = 4
@@ -2283,18 +2283,18 @@ If RemoveRP Then
                 MassErrors = MassErrors + 1
             End If
             'Back to mass RP
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
         End If 'Fail safe for to not mass 2 million PIRs if blank
     End If 'second fail safe if no PIRs for variants
 End If 'Remove RP
 'go back to MASS home page so we can do Minstdqty
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 
 'Set Minstdqty by filtering
 session.FindById("wnd[0]/usr/ctxtMASSSCREEN-VARNAME").Text = "minstdqty"
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 'Add Minstdqty for Gen (i=1) and Vars (i=2)
 For i = 1 To 2
 'sort Gen or Var
@@ -2310,17 +2310,17 @@ For i = 1 To 2
         For Each key In RPDic.keys
             WS.Range("$A$11:$CI$1000").AutoFilter Field:=15, Criteria1:=key
             lastRow = WS.Range("A1001").End(xlUp).row
-            session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").Press
-            session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+            session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").press
+            session.FindById("wnd[1]/tbar[0]/btn[16]").press
             WS.Range("D12:D" & lastRow).Copy
-            session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-            session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[24]").press
+            session.FindById("wnd[1]/tbar[0]/btn[8]").press
             'Fail safe to make sure we don't run mass on all PIRs if no PIR is entered
             If session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/ctxtMASSFREESEL-LOW[0,24]").Text <> "" Then
-                session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+                session.FindById("wnd[0]/tbar[1]/btn[8]").press
                 'If the number of entries is greater than blah. Click "display all records" button on popup
                     If session.ActiveWindow.Name = "wnd[1]" Then
-                        session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").Press
+                        session.FindById("wnd[1]/usr/btnSPOP-VAROPTION1").press
                     End If
                 'remove or add RP?
                 If key > 1 Then
@@ -2330,8 +2330,8 @@ For i = 1 To 2
                     session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/txtHEADER_STRUC-FIELD5-VALUE-RIGHT[4,0]").Text = ""
                     session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/txtHEADER_STRUC-FIELD6-VALUE-RIGHT[5,0]").Text = 1
                 End If
-                session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").Press
-                session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").press
+                session.FindById("wnd[0]/tbar[0]/btn[11]").press
                 If i = 1 Then
                     If session.FindById("wnd[0]/usr/txtNR_E").Text = "0" Then
                         'ws.Cells(8, 33 + i).Value = ws.Cells(8, 33 + i).Value + 1
@@ -2353,8 +2353,8 @@ For i = 1 To 2
                     End If
                 
                 End If
-                session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-                session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[3]").press
+                session.FindById("wnd[0]/tbar[0]/btn[3]").press
             End If
         Next
     End If
@@ -2425,15 +2425,15 @@ Range(Article.Address & ":" & Article.End(xlDown).Address).Copy
 
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzbd10"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/usr/btn%_S_MATNR_%_APP_%-VALU_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/usr/btn%_S_MATNR_%_APP_%-VALU_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[16]").press
+session.FindById("wnd[1]/tbar[0]/btn[24]").press
+session.FindById("wnd[1]/tbar[0]/btn[8]").press
 session.FindById("wnd[0]/mbar/menu[0]/menu[2]").Select
-session.FindById("wnd[1]/tbar[0]/btn[13]").Press
-session.FindById("wnd[1]/usr/btnSOFORT_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[11]").Press
+session.FindById("wnd[1]/tbar[0]/btn[13]").press
+session.FindById("wnd[1]/usr/btnSOFORT_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[11]").press
 session.FindById("wnd[0]/mbar/menu[0]/menu[4]").Select
 
 If StandAlone Then
@@ -2488,48 +2488,48 @@ Loop
 session.FindById("wnd[0]").Maximize
 
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nv/ld"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 If CondType = "ZADP" Then
     session.FindById("wnd[0]/usr/ctxtRV14A-KONLI").Text = "z2"
-    session.FindById("wnd[0]").SendVKey 0
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]").sendVKey 0
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
     session.FindById("wnd[0]/usr/ctxtP_1-LOW").Text = "10"
     session.FindById("wnd[0]/usr/ctxtL_1-LOW").Text = ""
     session.FindById("wnd[0]/usr/ctxtKSCHL-LOW").Text = CondType
-    session.FindById("wnd[0]").SendVKey 0
-    session.FindById("wnd[0]/usr/btn%_L_2_%_APP_%-VALU_PUSH").Press
-    session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[0]").sendVKey 0
+    session.FindById("wnd[0]/usr/btn%_L_2_%_APP_%-VALU_PUSH").press
+    session.FindById("wnd[1]/tbar[0]/btn[16]").press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
     session.FindById("wnd[0]/usr/chkPAR_L").Selected = True
     session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Yesterday
     session.FindById("wnd[0]/usr/txtMAX_LINE").Text = ""
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
     session.FindById("wnd[0]/mbar/menu[1]/menu[5]").Select
     session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[1,21]").Text = "pipjavals"
-    session.FindById("wnd[1]").SendVKey 0
+    session.FindById("wnd[1]").sendVKey 0
 Else
     session.FindById("wnd[0]/usr/ctxtRV14A-KONLI").Text = "z1"
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
     session.FindById("wnd[0]/usr/ctxtP_1-LOW").Text = "1000"
     session.FindById("wnd[0]/usr/ctxtP_2-LOW").Text = "10"
     session.FindById("wnd[0]/usr/ctxtKSCHL-LOW").Text = CondType
-    session.FindById("wnd[0]/usr/btn%_L_1_%_APP_%-VALU_PUSH").Press
-    session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[0]/usr/btn%_L_1_%_APP_%-VALU_PUSH").press
+    session.FindById("wnd[1]/tbar[0]/btn[16]").press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
     session.FindById("wnd[0]/usr/chkPAR_L").Selected = True
     session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Yesterday
     session.FindById("wnd[0]/usr/txtMAX_LINE").Text = ""
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
     session.FindById("wnd[0]/mbar/menu[1]/menu[5]").Select
     session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[1,21]").Text = "pipjavals"
-    session.FindById("wnd[1]").SendVKey 0
+    session.FindById("wnd[1]").sendVKey 0
 End If
 
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 If StandAlone Then
 Call EndSAPCON
@@ -2573,21 +2573,21 @@ Range(Article.Address & ":" & Article.End(xlDown).Address).Copy
 
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwpma"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/chkPA_ART").Selected = True
 session.FindById("wnd[0]/usr/ctxtPA_VKORG").Text = "1000"
 session.FindById("wnd[0]/usr/ctxtPA_VTWEG").Text = "10"
 session.FindById("wnd[0]/usr/ctxtSO_FISEL-LOW").Text = "rpos"
 session.FindById("wnd[0]/usr/chkPA_ART").SetFocus
-session.FindById("wnd[0]/usr/btn%_SO_MATAR_%_APP_%-VALU_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+session.FindById("wnd[0]/usr/btn%_SO_MATAR_%_APP_%-VALU_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[16]").press
+session.FindById("wnd[1]/tbar[0]/btn[24]").press
+session.FindById("wnd[1]/tbar[0]/btn[8]").press
 session.FindById("wnd[0]/mbar/menu[0]/menu[2]").Select
-session.FindById("wnd[1]/tbar[0]/btn[13]").Press
-session.FindById("wnd[1]/usr/btnSOFORT_PUSH").Press
-session.FindById("wnd[1]/tbar[0]/btn[11]").Press
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[1]/tbar[0]/btn[13]").press
+session.FindById("wnd[1]/usr/btnSOFORT_PUSH").press
+session.FindById("wnd[1]/tbar[0]/btn[11]").press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 If StandAlone Then
 Call EndSAPCON
@@ -2635,7 +2635,7 @@ End If
 'type /nmm42 into command bar and hit enter
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmm42"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 
 'Step through WS_AM sheet and perform UPC swap
 For i = 9 To lastRow
@@ -2646,10 +2646,10 @@ For i = 9 To lastRow
         UPCtoReplace = WS.Range("O" & i)
 'enter into article and hit F7 to look at UPC data
         session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = Article
-        session.FindById("wnd[0]/tbar[1]/btn[19]").Press
+        session.FindById("wnd[0]/tbar[1]/btn[19]").press
         session.FindById("wnd[0]/usr/tblSAPLMGMWTAB_CONT_0100").GetAbsoluteRow(0).Selected = True
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[0]").SendVKey 7
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[0]").sendVKey 7
 'look for the upc that should be swapped and swap it with the internal for that article
 'Green success row
 'Red Error row if we couldn't find the upc to swap
@@ -2666,17 +2666,17 @@ For i = 9 To lastRow
             WS.Range("O" & i & ":R" & i).Interior.ColorIndex = 3
         End If
 'hit enter a bunch of times to get through yellow warnings about upc type changings and save variant
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
     End If
 Next
 
 'back to home screen
-session.FindById("wnd[0]").SendVKey 3
+session.FindById("wnd[0]").sendVKey 3
 
 EndSAPCON
 
@@ -2688,7 +2688,7 @@ Sub SAP_Add_Var_AxisFlipFixer_MM42()
 Dim WB As Workbook
 Dim VarOutputWS As Worksheet
 Dim Vendor As String
-Dim generic As String
+Dim Generic As String
 Dim UPC As String
 Dim Cost As String
 Dim VariantNum As String
@@ -2726,7 +2726,7 @@ End If
 'Launch MM42
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmm42"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 
 'loop through each generic that had errors
 Do Until i >= lastRow
@@ -2735,7 +2735,7 @@ Do Until i >= lastRow
     VarOutputWS.Range("DE" & i) = "") And _
     LoopInd = "H" Then
 'Set Vars for the row
-        generic = VarOutputWS.Range("G" & i)
+        Generic = VarOutputWS.Range("G" & i)
         Size_Lens_Desc = VarOutputWS.Range("Q" & i)
         Color_Frame_Flavor_Desc = VarOutputWS.Range("N" & i)
         LoopInd = VarOutputWS.Range("A" & i)
@@ -2744,17 +2744,17 @@ Do Until i >= lastRow
         Cost = CStr(Round(VarOutputWS.Range("BQ" & i) + 0.000001, 2))
         Set GenStartRow = VarOutputWS.Range("DE" & i)
         
-        session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = generic
+        session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = Generic
         session.FindById("wnd[0]/usr/ctxtRMMW1-LIFNR").Text = Vendor
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB2:SAPLMGD2:1030/btnMATRIX_PUSH").Press
-        session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:1001/btnPOSITION").Press
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB2:SAPLMGD2:1030/btnMATRIX_PUSH").press
+        session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:1001/btnPOSITION").press
         session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Size_Lens_Desc
         session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'insert error handle for axis flip
         session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:1001/tblSAPLWMMBTC_SEL/chkSL01[1,0]").Selected = True
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         i = i + 1
         
 'Set Vars for the row
@@ -2766,21 +2766,21 @@ Do Until i >= lastRow
         Cost = CStr(Round(VarOutputWS.Range("BQ" & i) + 0.000001, 2))
         
         Do While LoopInd = "D"
-            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:1001/btnPOSITION").Press
+            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:1001/btnPOSITION").press
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Size_Lens_Desc
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'error handle for axis flip
             If session.ActiveWindow.Name = "wnd[2]" Then
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-                session.FindById("wnd[1]").SendVKey 0
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[1]").sendVKey 0
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Size_Lens_Desc
-                session.FindById("wnd[1]").SendVKey 0
+                session.FindById("wnd[1]").sendVKey 0
             End If
             session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:1001/tblSAPLWMMBTC_SEL/chkSL01[1,0]").Selected = True
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             i = i + 1
 'Set Vars for the row
             Size_Lens_Desc = VarOutputWS.Range("Q" & i)
@@ -2791,27 +2791,27 @@ Do Until i >= lastRow
             Cost = CStr(Round(VarOutputWS.Range("BQ" & i) + 0.000001, 2))
         Loop
         
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB5:SAPLMGD2:1040/ctxtRMMWZ-MEINH").Text = "ea"
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB5:SAPLMGD2:1040/ctxtRMMWZ-NUMTP").Text = UPCType
-        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB5:SAPLMGD2:1040/btnPUSH_VAR_EAN").Press
+        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB5:SAPLMGD2:1040/btnPUSH_VAR_EAN").press
         
         Do While LoopInd = "D1"
-            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").Press
+            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").press
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Size_Lens_Desc
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'error handle for axis flip
             If session.ActiveWindow.Name = "wnd[2]" Then
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-                session.FindById("wnd[1]").SendVKey 0
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[1]").sendVKey 0
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Size_Lens_Desc
-                session.FindById("wnd[1]").SendVKey 0
+                session.FindById("wnd[1]").sendVKey 0
             End If
             session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/tblSAPLWMMBTC_VAL/txtVL01[1,0]").Text = UPC
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
 'Set Vars for the row
             i = i + 1
             Size_Lens_Desc = VarOutputWS.Range("Q" & i)
@@ -2822,34 +2822,34 @@ Do Until i >= lastRow
             Cost = CStr(Round(VarOutputWS.Range("BQ" & i) + 0.000001, 2))
         Loop
         
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP02").Select
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP03").Select
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=pb52"
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=#sn2"
-        session.FindById("wnd[0]").SendVKey 0
-        session.FindById("wnd[1]/tbar[0]/btn[7]").Press
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[0]").sendVKey 0
+        session.FindById("wnd[1]/tbar[0]/btn[7]").press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
         
         Do While LoopInd = "D2"
-            session.FindById("wnd[0]/usr/subSUB3:SAPLWMMB:4000/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").Press
+            session.FindById("wnd[0]/usr/subSUB3:SAPLWMMB:4000/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").press
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Size_Lens_Desc
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'error handle for axis flip
             If session.ActiveWindow.Name = "wnd[2]" Then
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-                session.FindById("wnd[1]").SendVKey 0
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[1]").sendVKey 0
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Size_Lens_Desc
-                session.FindById("wnd[1]").SendVKey 0
+                session.FindById("wnd[1]").sendVKey 0
             End If
             session.FindById("wnd[0]/usr/subSUB3:SAPLWMMB:4000/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/tblSAPLWMMBTC_VAL/txtVL01[1,0]").Text = Cost
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
 'Set Vars for the row
             i = i + 1
             Size_Lens_Desc = VarOutputWS.Range("Q" & i)
@@ -2860,34 +2860,34 @@ Do Until i >= lastRow
             Cost = CStr(Round(VarOutputWS.Range("BQ" & i) + 0.000001, 2))
         Loop
         
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP04").Select
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "/ensch"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[1]/usr/ctxtRMMW1-VKORG").Text = "1000"
         session.FindById("wnd[1]/usr/ctxtRMMW1-VTWEG").Text = "10"
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP05").Select
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP06").Select
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP06/ssubTABFRA1:SAPLMGMW:2008/subSUB7:SAPLWRF_ARTICLE_SCREENS:2704/ctxtMARC-MTVFP").Text = "01"
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP07").Select
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=pb14"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD03").Select
         
         Do While LoopInd = "D3"
-            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD03/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").Press
+            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD03/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").press
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Size_Lens_Desc
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
         If session.ActiveWindow.Name = "wnd[2]" Then
-            session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[2]/tbar[0]/btn[0]").press
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = Color_Frame_Flavor_Desc
-            session.FindById("wnd[1]").SendVKey 0
-            session.FindById("wnd[2]").SendVKey 0
+            session.FindById("wnd[1]").sendVKey 0
+            session.FindById("wnd[2]").sendVKey 0
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = Size_Lens_Desc
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
         End If
             VariantNum = session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD03/ssubMTX_SUBSC:SAPLWMMB:2101/tblSAPLWMMBTC_VAL/txtVL01[1,0]").Text
             VarOutputWS.Range("D" & i) = VariantNum
@@ -2902,8 +2902,8 @@ Do Until i >= lastRow
         Loop
         Set GenEndRow = VarOutputWS.Range("DE" & i - 1)
         
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
         
         If session.FindById("wnd[0]/sbar").MessageType = "S" Then
             VarOutputWS.Range(GenStartRow.Address, GenEndRow.Address).Value = session.FindById("wnd[0]/sbar").Text
@@ -2915,7 +2915,7 @@ Do Until i >= lastRow
     Else 'not a H row or this gen group didn't have axis flip
     'Set Vars for the row
         i = i + 1
-        generic = VarOutputWS.Range("G" & i)
+        Generic = VarOutputWS.Range("G" & i)
         Size_Lens_Desc = VarOutputWS.Range("Q" & i)
         Color_Frame_Flavor_Desc = VarOutputWS.Range("N" & i)
         LoopInd = VarOutputWS.Range("A" & i)
@@ -2974,20 +2974,20 @@ AltVendor = 0
 
 'Uncheck Payment adv by EDI for Vendor
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 session.FindById("wnd[0]/usr/chkRF02K-D0215").Selected = True
 session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = Vendor
 session.FindById("wnd[0]/usr/ctxtRF02K-BUKRS").Text = "1000"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/chkLFB1-XEDIP").Selected = False
 If session.FindById("wnd[0]/usr/ctxtLFB1-LNRZB").Text <> "" Then
     AltVendor = session.FindById("wnd[0]/usr/ctxtLFB1-LNRZB").Text
 End If
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").Text Like "*not yet been agreed*" Then
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 End If
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
@@ -3002,18 +3002,18 @@ End If
 'Uncheck Payment adv by EDI for Alt Payee if needed
 If AltVendor <> 0 Then
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 session.FindById("wnd[0]/usr/chkRF02K-D0215").Selected = True
 session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = AltVendor
 session.FindById("wnd[0]/usr/ctxtRF02K-BUKRS").Text = "1000"
 session.FindById("wnd[0]/usr/chkRF02K-D0215").SetFocus
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/chkLFB1-XEDIP").Selected = False
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").Text Like "*not yet been agreed*" Then
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 End If
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
@@ -3025,24 +3025,24 @@ End If
 End If
 'deleting all the Output conditions with MN05
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmn05"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtRV13B-KSCHL").Text = "ZARB"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[1,0]").Select
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 For i = LBound(OutPutArr) To UBound(OutPutArr)
 session.FindById("wnd[0]/usr/ctxtF001").Text = OutPutArr(i)
 session.FindById("wnd[0]/usr/ctxtF002").Text = "1000"
 session.FindById("wnd[0]/usr/ctxtF003-LOW").Text = Vendor
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY").GetAbsoluteRow(0).Selected = True
-session.FindById("wnd[0]/tbar[1]/btn[14]").Press
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[1]/btn[14]").press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 'if the condition doesn't exist go back and go onto next condition type
 If session.FindById("wnd[0]/sbar").Text = "Saving not necessary. No changes were made" Then
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
+    session.FindById("wnd[0]").sendVKey 0
 Else
     If session.FindById("wnd[0]/sbar").MessageType = "S" Then
         OutputStatus(i) = True
@@ -3061,14 +3061,14 @@ Next
 
 'Remove ERS1 and ERS6 Invoicing Outputs with MRM2
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmrm2"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtRV13B-KSCHL").Text = "ERS1"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtF001-LOW").Text = Vendor
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY").GetAbsoluteRow(0).Selected = True
-session.FindById("wnd[0]/tbar[1]/btn[14]").Press
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[1]/btn[14]").press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
     OutputStatus(4) = True
@@ -3077,17 +3077,17 @@ Else
 End If
 
 
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 session.FindById("wnd[0]/usr/ctxtRV13B-KSCHL").Text = "ERS6"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[0,0]").Select
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
 session.FindById("wnd[0]/usr/ctxtF001").Text = "1000"
 session.FindById("wnd[0]/usr/ctxtF002-LOW").Text = Vendor
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY").GetAbsoluteRow(0).Selected = True
-session.FindById("wnd[0]/tbar[1]/btn[14]").Press
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[1]/btn[14]").press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
     OutputStatus(5) = True
@@ -3099,26 +3099,26 @@ End If
 
 'Remove vendor from Z_Ariba_Vendor Table
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nz_ariba_vendor"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/usr/btnVIM_POSI_PUSH").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/usr/btnVIM_POSI_PUSH").press
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").Text = "1000"
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[1,21]").Text = Vendor
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
 If session.FindById("wnd[0]/usr/tbl/ARBA/SAPLTABLE_MAINTCTRL_/ARBA/AN_VENDOR/ctxt/ARBA/AN_VENDOR-LIFNR[1,0]").Text = Vendor Then
     session.FindById("wnd[0]/usr/tbl/ARBA/SAPLTABLE_MAINTCTRL_/ARBA/AN_VENDOR").Rows(0).Selected = True
-    session.FindById("wnd[0]/tbar[1]/btn[14]").Press
-    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[14]").press
+    session.FindById("wnd[0]/tbar[0]/btn[11]").press
 Else
     MsgBox "Vendor is not in Z_Ariba_Vendor Table. Consult with Vendor Ops."
 End If
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
     ZASave = True
 Else
     ZASave = False
 End If
 
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 If AltVendor <> 0 Then
     If VendorSave And AltVendorSave And OutputStatus(0) And OutputStatus(1) And OutputStatus(2) _
@@ -3177,21 +3177,21 @@ AltVendor = 0
 
 'Check Payment adv by EDI for Vendor
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[8]").press
 session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = Vendor
 session.FindById("wnd[0]/usr/ctxtRF02K-BUKRS").Text = "1000"
 session.FindById("wnd[0]/usr/chkRF02K-D0215").Selected = True
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/chkLFB1-XEDIP").Selected = True
 
 If session.FindById("wnd[0]/usr/ctxtLFB1-LNRZB").Text <> "" Then
     AltVendor = session.FindById("wnd[0]/usr/ctxtLFB1-LNRZB").Text
 End If
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").Text Like "*not yet been agreed*" Then
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 End If
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
@@ -3203,17 +3203,17 @@ End If
 'Check Payment adv by EDI for Alt Payee if needed
 If AltVendor <> 0 Then
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nxk02"
-    session.FindById("wnd[0]").SendVKey 0
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]").sendVKey 0
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
     session.FindById("wnd[0]/usr/chkRF02K-D0215").Selected = True
     session.FindById("wnd[0]/usr/ctxtRF02K-LIFNR").Text = AltVendor
     session.FindById("wnd[0]/usr/ctxtRF02K-BUKRS").Text = "1000"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     session.FindById("wnd[0]/usr/chkLFB1-XEDIP").Selected = True
-    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").Text Like "*not yet been agreed*" Then
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 End If
 
     If session.FindById("wnd[0]/sbar").MessageType = "S" Then
@@ -3226,12 +3226,12 @@ End If
 
 'Set up Output conditions with MN04
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmn04"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtRV13B-KSCHL").Text = "zarb"
 session.FindById("wnd[0]/usr/ctxtRV13B-KSCHL").CaretPosition = 4
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[1,0]").Select
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 For i = LBound(OutPutArr) To UBound(OutPutArr)
     session.FindById("wnd[0]/usr/ctxtKOMB-BSART").Text = OutPutArr(i)
@@ -3242,7 +3242,7 @@ For i = LBound(OutPutArr) To UBound(OutPutArr)
     session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-NACHA[4,0]").Text = "6"
     session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-VSZTP[5,0]").Text = "1"
     session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-SPRAS[6,0]").Text = "EN"
-    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[11]").press
     If session.FindById("wnd[0]/sbar").MessageType = "S" Then
         OutputStatus(i) = True
     Else
@@ -3251,18 +3251,18 @@ For i = LBound(OutPutArr) To UBound(OutPutArr)
 Next
 
 'Set up Invoicing Output conditions ERS1 and ERS6 with MRM1
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nMRM1"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtRV13B-KSCHL").Text = "ERS1"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/txtKOMB-LIFRE[0,0]").Text = Vendor
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-PARVW[2,0]").Text = "LS"
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtRV13B-PARNR[3,0]").Text = "PIPJAVALS"
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-NACHA[4,0]").Text = "6"
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-VSZTP[5,0]").Text = "3"
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-SPRAS[6,0]").Text = "EN"
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
     OutputStatus(4) = True
@@ -3270,11 +3270,11 @@ Else
     OutputStatus(4) = False
 End If
 
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 session.FindById("wnd[0]/usr/ctxtRV13B-KSCHL").Text = "ERS6"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[0,0]").Select
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
 session.FindById("wnd[0]/usr/ctxtKOMB-BUKRS").Text = "1000"
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/txtKOMB-LIFRE[0,0]").Text = Vendor
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-PARVW[2,0]").Text = "LS"
@@ -3282,7 +3282,7 @@ session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtRV13B-PARNR[3,0]").
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-NACHA[4,0]").Text = "6"
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-VSZTP[5,0]").Text = "4"
 session.FindById("wnd[0]/usr/tblSAPMV13BTCTRL_FAST_ENTRY/ctxtNACH-SPRAS[6,0]").Text = "EN"
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
     OutputStatus(5) = True
@@ -3290,15 +3290,15 @@ Else
     OutputStatus(5) = False
 End If
 
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 'Add Vendor to Z_Ariba_Vendor Table
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nz_ariba_vendor"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[0]/tbar[1]/btn[5]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[5]").press
 session.FindById("wnd[0]/usr/ctxt/ARBA/AN_VENDOR-BUKRS").Text = "1000"
 session.FindById("wnd[0]/usr/ctxt/ARBA/AN_VENDOR-LIFNR").Text = Vendor
-session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+session.FindById("wnd[0]/tbar[0]/btn[11]").press
 
 If session.FindById("wnd[0]/sbar").MessageType = "S" Then
     ZASave = True
@@ -3306,8 +3306,8 @@ Else
     ZASave = False
 End If
 
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 If AltVendor <> 0 Then
     If VendorSave And AltVendorSave And OutputStatus(0) And OutputStatus(1) And OutputStatus(2) _
@@ -3371,7 +3371,7 @@ Private Sub SAP_New_Generic_VOL_MM42_VK11()
 Dim WB As Workbook
 Dim WS As Worksheet
 Dim LogSheet As Worksheet
-Dim generic As Long
+Dim Generic As Long
 Dim i As Integer
 Dim j As Integer
 Dim lastRow As Integer
@@ -3422,14 +3422,14 @@ Do Until i > lastRow
     If (WS.Range("DI" & i) = "" Or WS.Range("DI" & i) Like "*TSV_TNEW_PAGE_ALLOC_FAILED*") And WS.Range("A" & i) = "H" Then
         'Generic stuff
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmm42"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         HLine = i
-        generic = WS.Range("C" & i)
-        session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = generic
+        Generic = WS.Range("C" & i)
+        session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = Generic
         session.FindById("wnd[0]/usr/ctxtRMMW1-LIFNR").Text = WS.Range("K" & i).Value
         'session.FindById("wnd[0]/usr/ctxtRMMW1-LIFNR").SetFocus
         'session.FindById("wnd[0]/usr/ctxtRMMW1-LIFNR").caretPosition = 5
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB1:SAPLMGD2:1010/txtMAKT-MAKTX").Text = WS.Range("E" & i).Value
         
         'If PAC set PAC
@@ -3500,13 +3500,13 @@ Do Until i > lastRow
         'Employee Discount percent
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/sub:SAPLCTMS:4000/ctxtRCTMS-MWERT[5,32]").Text = WS.Range("AT" & i).Value
         'page down on info chars
-        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").Press
+        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").press
         'Validation Required
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/sub:SAPLCTMS:4000/ctxtRCTMS-MWERT[0,32]").Text = WS.Range("AU" & i).Value
         'Inspection Required
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/sub:SAPLCTMS:4000/ctxtRCTMS-MWERT[5,32]").Text = WS.Range("AV" & i).Value
         'Page down on info chars
-        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").Press
+        session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/btnOES_PDOWN").press
         'MBI
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB16:SAPLCTMS:4000/sub:SAPLCTMS:4000/ctxtRCTMS-MWERT[0,32]").Text = WS.Range("CY" & i).Value
         'Liability Waiver
@@ -3519,51 +3519,51 @@ Do Until i > lastRow
         'ARN Stuff in Alt Data from script 9 Size Range
         If WS.Range("FH" & i) = True Then
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "=zu06"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             'ARN and Defaulted 0004
             session.FindById("wnd[0]/usr/tabsTABSPR1/tabpZU06/ssubTABFRA1:SAPLMGMW:2110/subSUB2:SAPLAEMM:2686/tblSAPLAEMMTCTRL_ADDI/ctxtWTADDI_EDIT-ADDIMAT[7,0]").Text = WS.Range("DA" & i).Value
             session.FindById("wnd[0]/usr/tabsTABSPR1/tabpZU06/ssubTABFRA1:SAPLMGMW:2110/subSUB2:SAPLAEMM:2686/tblSAPLAEMMTCTRL_ADDI/ctxtWTADDI_EDIT-ADDIFM[9,0]").Text = "0004"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             'Back to Basic Data for size range
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "=Baba"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If
         
         
         'Click Variants button and create all the Variants by checking them
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=pb14"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         XYLooper = i
         
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=xych"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         'Click Position button, drop color and size in. axis flip fix if needed. Check box on article to create Variant
         Do While WS.Range("A" & XYLooper) = "H" Or WS.Range("A" & XYLooper) = "D"
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "=posi"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = WS.Range("N" & XYLooper).Value
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = WS.Range("Q" & XYLooper).Value
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
             'error handle for axis flip
             If session.ActiveWindow.Name = "wnd[2]" Then
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = WS.Range("Q" & XYLooper).Value
-                session.FindById("wnd[1]").SendVKey 0
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[1]").sendVKey 0
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = WS.Range("N" & XYLooper).Value
-                session.FindById("wnd[1]").SendVKey 0
+                session.FindById("wnd[1]").sendVKey 0
             End If
             session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:1001/tblSAPLWMMBTC_SEL/chkSL01[1,0]").Selected = True
             XYLooper = XYLooper + 1
         Loop
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=back"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         
         
     
         'Listings stuff - We'll set some radio buttons but skip listing to 6 basic sites - known memory issue
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp02"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP02/ssubTABFRA1:SAPLMGMW:2000/subSUB5:SAPLWRF_ARTICLE_SCREENS:2214/chkRMMWZ-MPFLB").Selected = True
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP02/ssubTABFRA1:SAPLMGMW:2000/subSUB5:SAPLWRF_ARTICLE_SCREENS:2214/chkRMMWZ-NLIPR").Selected = True
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP02/ssubTABFRA1:SAPLMGMW:2000/subSUB5:SAPLWRF_ARTICLE_SCREENS:2214/chkRMMWZ-LILI").Selected = False
@@ -3571,7 +3571,7 @@ Do Until i > lastRow
     
         'Purch tab stuff Add logic
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp03"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         'Regular Vendor Check
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP03/ssubTABFRA1:SAPLMGMW:2000/subSUB2:SAPLZMGD2:2221/chkEINA-RELIF").Selected = True
         'Unlimited Check
@@ -3623,24 +3623,24 @@ Do Until i > lastRow
         
         'Sales tab to set Company Code 1000 Distribution Channels 10 and 30 and set retails of all variants
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp04"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "/ensch"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If
         session.FindById("wnd[1]/usr/ctxtRMMW1-VKORG").Text = "1000"
         session.FindById("wnd[1]/usr/ctxtRMMW1-VTWEG").Text = "10"
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
         
         'Set some defaults for Purch Price Determination and Sales Price Determination then loop through variants
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP04/ssubTABFRA1:SAPLMGMW:2030/subSUB4:SAPLMGD2:2233/ctxtCALP-EKERV").Text = "01"
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP04/ssubTABFRA1:SAPLMGMW:2030/subSUB4:SAPLMGD2:2233/ctxtCALP-VKERV").Text = "01"
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=pb53"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         
         
         Do Until WS.Range("A" & XYLooper) = "D2"
@@ -3648,21 +3648,21 @@ Do Until i > lastRow
         Loop
             'XYLooper = XYLooper - 1
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=xych"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         Do While WS.Range("A" & XYLooper) = "D2"
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "=posi"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = WS.Range("N" & XYLooper).Value
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = WS.Range("Q" & XYLooper).Value
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
             'error handle for axis flip
             If session.ActiveWindow.Name = "wnd[2]" Then
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = WS.Range("Q" & XYLooper).Value
-                session.FindById("wnd[1]").SendVKey 0
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[1]").sendVKey 0
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = WS.Range("N" & XYLooper).Value
-                session.FindById("wnd[1]").SendVKey 0
+                session.FindById("wnd[1]").sendVKey 0
             End If
             If Right(Round(WS.Range("CE" & XYLooper).Value + 0.000001, 2) * 100, 2) = "73" Or Right(Round(WS.Range("CE" & XYLooper).Value + 0.000001, 2) * 100, 2) = "95" Or _
                 Right(Round(WS.Range("CE" & XYLooper).Value + 0.000001, 2) * 100, 2) = "00" Then
@@ -3676,24 +3676,24 @@ Do Until i > lastRow
         
         session.FindById("wnd[0]/usr/subSUB2:SAPLMGW_SALES_PRICE_MATRIX:1220/chkCALP-VKABS").Selected = True
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=back"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         
         'Link to Comp 1000 Dist 30
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "/ensch"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[1]/usr/ctxtRMMW1-VTWEG").Text = "30"
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
         
         'Back to Dist 10
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "/ensch"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[1]/usr/ctxtRMMW1-VTWEG").Text = "10"
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
         
         
         'Logistics: DC Tab
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp05"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         'Rounding Profile Blank it out
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP05/ssubTABFRA1:SAPLMGMW:2004/subSUB3:SAPLWRF_ARTICLE_SCREENS:2242/ctxtMARC-RDPRF").Text = ""
         'Purch Group
@@ -3710,9 +3710,9 @@ Do Until i > lastRow
         
         'Logistics: Store
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp06"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If
         'Purch Group
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP06/ssubTABFRA1:SAPLMGMW:2008/subSUB7:SAPLWRF_ARTICLE_SCREENS:2704/ctxtMARC-EKGRP").Text = WS.Range("AN" & i).Value
@@ -3726,9 +3726,9 @@ Do Until i > lastRow
         
         'POS Tab
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp07"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         End If
         'Disc. Allowed
         If WS.Range("CL" & i) = "X" Then
@@ -3747,7 +3747,7 @@ Do Until i > lastRow
 
         'back to Basic data tab
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp01"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
 
         Do Until WS.Range("A" & XYLooper) = "D4"
             XYLooper = XYLooper + 1
@@ -3757,22 +3757,22 @@ Do Until i > lastRow
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB5:SAPLMGD2:1040/ctxtRMMWZ-MEINH").Text = "EA"
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB5:SAPLMGD2:1040/ctxtRMMWZ-NUMTP").Text = WS.Range("BB" & XYLooper).Value
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=pb30"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         
         Do While WS.Range("A" & XYLooper) = "D4"
             'Press position button, put in x char and y char
-            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").Press
+            session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/btnPOSITION").press
             session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = WS.Range("N" & XYLooper).Value
             session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = WS.Range("Q" & XYLooper).Value
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
             'error handle for axis flip
             If session.ActiveWindow.Name = "wnd[2]" Then
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtX_CHAR_VAL").Text = WS.Range("Q" & XYLooper).Value
-                session.FindById("wnd[1]").SendVKey 0
-                session.FindById("wnd[2]/tbar[0]/btn[0]").Press
+                session.FindById("wnd[1]").sendVKey 0
+                session.FindById("wnd[2]/tbar[0]/btn[0]").press
                 session.FindById("wnd[1]/usr/ctxtY_CHAR_VAL").Text = WS.Range("N" & XYLooper).Value
-                session.FindById("wnd[1]").SendVKey 0
+                session.FindById("wnd[1]").sendVKey 0
             End If
             'Variant we care about is now highlighted put in UPC and hit enter
             session.FindById("wnd[0]/usr/tabsMAIN_TS/tabpMD01/ssubMTX_SUBSC:SAPLWMMB:2101/tblSAPLWMMBTC_VAL/txtVL01[1,0]").Text = WS.Range("BA" & XYLooper).Value
@@ -3782,16 +3782,16 @@ Do Until i > lastRow
         Loop
         
         'back to basic data tab
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
         
         'end generic stuff, Save the Generic then go back into Generic then go do variant specific stuff next
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
-        session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = generic
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
+        session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = Generic
         session.FindById("wnd[0]/usr/ctxtRMMW1-LIFNR").Text = WS.Range("K" & i).Value
         
         'sometimes you lock yourself out as it is trying to save. Keep clicking enter till youre not locked out
         Do Until session.ActiveWindow.Text Like "*Basic Data*"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         Loop
         
         
@@ -3805,12 +3805,12 @@ Do Until i > lastRow
         'Loop through D4 to set Variant level things
         VarCounter = 1
         Do While WS.Range("A" & XYLooper) = "D4"
-            session.FindById("wnd[0]/tbar[1]/btn[13]").Press
+            session.FindById("wnd[0]/tbar[1]/btn[13]").press
             'Variant number and drop in D3 column D
-            session.FindById("wnd[1]/usr/ctxtRMMW1-VARNR").Text = generic & Format(VarCounter, "0000")
+            session.FindById("wnd[1]/usr/ctxtRMMW1-VARNR").Text = Generic & Format(VarCounter, "0000")
             'WS.Range("D" & D4Line) = Generic & Format(VarCounter, "0000")
             'session.FindById("wnd[1]/usr/ctxtRMMW1-VARNR").caretPosition = 10
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
 '            'UPC on basic data Tab
 '            session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB4:SAPLMGD2:8022/tblSAPLMGD2TC_ME_8022/txtSMEINH-EAN11[8,0]").Text = WS.Range("BA" & XYLooper)
 '            'UPC Catagory
@@ -3826,7 +3826,7 @@ Do Until i > lastRow
             
             'Touch the Purch Tab to Create PIR
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp03"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             'VPN
             session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP03/ssubTABFRA1:SAPLMGMW:2000/subSUB2:SAPLZMGD2:2221/txtEINA-IDNLF").Text = WS.Range("BK" & XYLooper).Value
             'Cost Update
@@ -3842,25 +3842,25 @@ Do Until i > lastRow
             
             'Logistics: DC Tab Set Replenishment type
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp05"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-                session.FindById("wnd[0]").SendVKey 0
+                session.FindById("wnd[0]").sendVKey 0
             End If
             session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP05/ssubTABFRA1:SAPLMGMW:2004/subSUB3:SAPLWRF_ARTICLE_SCREENS:2242/ctxtMARC-DISMM").Text = WS.Range("CZ" & XYLooper).Value
             'Logistics: Store Tab Set Replenishment type
             session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP06").Select
         session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP06/ssubTABFRA1:SAPLMGMW:2008/subSUB2:SAPLWRF_ARTICLE_SCREENS:2242/ctxtMARC-DISMM").Text = WS.Range("CZ" & XYLooper).Value
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "=sp01"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         VarCounter = VarCounter + 1
         XYLooper = XYLooper + 1
         Loop
         
         'After all variants have been touched lets go back to Gen and hit save button
-        session.FindById("wnd[0]/tbar[1]/btn[13]").Press
+        session.FindById("wnd[0]/tbar[1]/btn[13]").press
         session.FindById("wnd[1]/usr/ctxtRMMW1-VARNR").Text = ""
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
         
 '        'end generic stuff, Save the Generic then go back into Generic then go do variant specific stuff next
 '        session.FindById("wnd[0]/tbar[0]/btn[11]").press
@@ -3876,23 +3876,23 @@ Do Until i > lastRow
         
         'Create Retail Condtion for Generic using Generic Variable set at beginning of if
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nvk11"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[0]/usr/ctxtRV13A-KSCHL").Text = "VKP0"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[5,0]").Select
-        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[0]").press
         session.FindById("wnd[0]/usr/ctxtKOMG-VKORG").Text = "1000"
         session.FindById("wnd[0]/usr/ctxtKOMG-VTWEG").Text = "10"
-        session.FindById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]").Text = generic
+        session.FindById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]").Text = Generic
         session.FindById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-VRKME[1,0]").Text = "EA"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         session.FindById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[3,0]").Text = WS.Range("CE" & HLine).Value
         'session.FindById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[3,1]").SetFocus
         'session.FindById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[3,1]").caretPosition = 16
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
         
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press
         
 ''Insert WSM3 job
 '    D3Start = i
@@ -3970,12 +3970,12 @@ End If
 'Go to MEK2 Tcode
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmek2"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 
 'Enter Condition type, choose international, hit check box/enter
 session.FindById("wnd[0]/usr/ctxtRV13A-KSCHL").Text = "zpdt"
-session.FindById("wnd[0]").SendVKey 0
-session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]").sendVKey 0
+session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 'Loop through all rows and for each row loop through the three DC columns
 For i = 5 To lastRow
@@ -3986,19 +3986,19 @@ For i = 5 To lastRow
                 'enter port code(INCO 2), enter DC formatted 000#, hit excecute
                 session.FindById("wnd[0]/usr/txtF001").Text = WS.Cells(i, 5).Value
                 session.FindById("wnd[0]/usr/ctxtF002-LOW").Text = Format(j - 6, "0000")
-                session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+                session.FindById("wnd[0]/tbar[1]/btn[8]").press
                 
                 'if no condition exists for PC/DC pair log that it needs to be manually created
                 'and get back to previous page for next pair
                 If session.FindById("wnd[0]/sbar").Text Like "*No condition*" Then
-                    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[3]").press
                     session.FindById("wnd[0]/usr/ctxtRV13A-KSCHL").Text = "zpdt"
-                    session.FindById("wnd[0]").SendVKey 0
+                    session.FindById("wnd[0]").sendVKey 0
                     
                     'Looks like you don't always get the popup asking for Int or Dom...
                     'if we get it we'll choose Int
                     If session.ActiveWindow.Name = "wnd[1]" Then
-                        session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+                        session.FindById("wnd[1]/tbar[0]/btn[0]").press
                     End If
                     WS.Cells(i, j).Interior.ColorIndex = 3
                     WS.Cells(i, j + 16).Interior.ColorIndex = 3
@@ -4008,7 +4008,7 @@ For i = 5 To lastRow
                 Else
                 
                     session.FindById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKOMG-ZZPLIFZ[2,0]").Text = WS.Cells(i, j).Value
-                    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[11]").press
                     
                     'if we get a success message then we all good, log that and move on.
                     'if we don't have user manually look into that...
@@ -4028,8 +4028,8 @@ For i = 5 To lastRow
 Next
 
 'Back buttons to home screen
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 'Log Headers cause i don't want to update the blank template
 WS.Range("W4") = "Sumner - 0001 Log"
@@ -4076,7 +4076,7 @@ Sub SAP_UPCSwap_MASS()
 'Navigate to T-code MASS
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nmass"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Object Type - BUS1001001
     session.FindById("wnd[0]/usr/ctxtMASSSCREEN-OBJECT").Text = "bus1001001"
 'Variant Name - UPC_CHG
@@ -4084,7 +4084,7 @@ Sub SAP_UPCSwap_MASS()
 'Press Execute
     session.FindById("wnd[0]/usr/ctxtMASSSCREEN-VARNAME").SetFocus
     session.FindById("wnd[0]/usr/ctxtMASSSCREEN-VARNAME").CaretPosition = 7
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
     
 'Loop through ArtRange
     For Each Article In ArtRange
@@ -4093,21 +4093,21 @@ Sub SAP_UPCSwap_MASS()
             NewUPC = UPCSheet.Range("O" & Article.row).Value
             Article.Copy
         'Press Multiple Selection (Arrow - Article)
-            session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").Press
+            session.FindById("wnd[0]/usr/tabsTAB/tabpCHAN/ssubSUB_ALL:SAPLMASS_SEL_DIALOG:0200/ssubSUB_SEL:SAPLMASSFREESELECTIONS:1000/sub:SAPLMASSFREESELECTIONS:1000/btnMASSFREESEL-MORE[0,69]").press
         'Press Delete Entire Selection (Trash can)
-            session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[16]").press
         'Press Upload from Clipboard (Clipboard)
-            session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[24]").press
         'Press Copy (Execute)
-            session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[8]").press
         'Press Execute (Execute)
-            session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+            session.FindById("wnd[0]/tbar[1]/btn[8]").press
         'Enter New UPC in the "GTIN" field
             session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/ssubSUB_HEAD:SAPLMASSINTERFACE:0210/tblSAPLMASSINTERFACETCTRL_HEADER/txtHEADER_STRUC-FIELD3-VALUE-LEFT[3,0]").Text = NewUPC
         'Press Perform Mass Change (Down Arrows)
-            session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").Press
+            session.FindById("wnd[0]/usr/tabsTBSTRP_TABLES/tabpTAB1/ssubFIELDS:SAPLMASSINTERFACE:0202/btnFDAE").press
         'Press Save
-            session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[11]").press
             
         'Check for "Green Success bubbles"
             If session.FindById("wnd[0]/usr/txtNR_E").Text = "0" Then
@@ -4121,17 +4121,17 @@ Sub SAP_UPCSwap_MASS()
             End If
             
         'Press Back (Green Arrow)
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
         'Press Back again (Green Arrow)
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press
         Else
         End If 'If Artcle is a "Category Swap"
     Next 'For Each Article In ArtRange
 
 'Press Back (Green Arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 'Press Back (Green Arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 'Call ENDSAPCON
     EndSAPCON
@@ -4180,21 +4180,21 @@ If session.Info.SystemName <> "ECD" Then
 End If
 
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nsm30"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 session.FindById("wnd[0]/usr/ctxtVIEWNAME").Text = "V_T604"
-session.FindById("wnd[0]/usr/btnUPDATE_PUSH").Press
+session.FindById("wnd[0]/usr/btnUPDATE_PUSH").press
 
 i = 1
 Do While ActiveSheet.Range("A" & i) <> ""
 
-session.FindById("wnd[0]/usr/btnVIM_POSI_PUSH").Press
+session.FindById("wnd[0]/usr/btnVIM_POSI_PUSH").press
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").Text = "US"
 session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[1,21]").Text = ActiveSheet.Range("A" & i).Text 'inputting code to find
-session.FindById("wnd[1]").SendVKey 0
+session.FindById("wnd[1]").sendVKey 0
 If session.FindById("wnd[0]/usr/tblSAPL080ETCTRL_V_T604/txtV_T604-STAWN[1,0]").Text = ActiveSheet.Range("A" & i).Text Then
-    session.FindById("wnd[0]").SendVKey 2
+    session.FindById("wnd[0]").sendVKey 2
     session.FindById("wnd[0]/usr/ctxtV_T604-NIHON").Text = "" 'blanking out
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 Else
     MsgBox "HTS code on your sheet does not exist for country code US. Highlighting yellow for you to look into..."
     ActiveSheet.Range("A" & i).Interior.ColorIndex = 6
@@ -4253,7 +4253,7 @@ End If
 
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "WSM3"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 
 
 For i = LBound(WorkNeeded) To UBound(WorkNeeded)
@@ -4282,8 +4282,8 @@ For i = LBound(WorkNeeded) To UBound(WorkNeeded)
         session.FindById("wnd[0]/usr/ctxtASORT-LOW").Text = "1"
         session.FindById("wnd[0]/usr/ctxtMATNR-LOW").Text = "1565160001"
         session.FindById("wnd[0]/usr/ctxtLSTFL").Text = "02"
-        session.FindById("wnd[0]/usr/btn%_ASORT_%_APP_%-VALU_PUSH").Press
-        session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+        session.FindById("wnd[0]/usr/btn%_ASORT_%_APP_%-VALU_PUSH").press
+        session.FindById("wnd[1]/tbar[0]/btn[16]").press
         If i = 0 Or i = 2 Then
             session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "1"
             session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,1]").Text = "2"
@@ -4294,15 +4294,15 @@ For i = LBound(WorkNeeded) To UBound(WorkNeeded)
         If i = 1 Or i = 2 Then
             session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,5]").Text = "3pl_all"
         End If
-        session.FindById("wnd[1]").SendVKey 0
-        session.FindById("wnd[1]/tbar[0]/btn[8]").Press
-        session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+        session.FindById("wnd[1]").sendVKey 0
+        session.FindById("wnd[1]/tbar[0]/btn[8]").press
+        session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").press
         Range("D2:D" & lastRow).SpecialCells(xlCellTypeVisible).Copy
-        session.FindById("wnd[1]/tbar[0]/btn[16]").Press
-        session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[16]").press
+        session.FindById("wnd[1]/tbar[0]/btn[24]").press
         Application.CutCopyMode = False
-        session.FindById("wnd[1]/tbar[0]/btn[8]").Press
-        session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[8]").press
+        session.FindById("wnd[0]/tbar[1]/btn[8]").press
         If session.FindById("wnd[0]/sbar").Text = "No article exists for these selection criteria" Then
             MsgBox "An article you tried to list didn't get created. Figure out what that is all about... Exiting sub"
             Exit Sub
@@ -4339,21 +4339,21 @@ For i = LBound(WorkNeeded) To UBound(WorkNeeded)
             Case Is = 2
                 MsgBox "Gen listing fix failed because someone was blocking you. You will need to run this macro again.", vbCritical
             End Select
-            session.FindById("wnd[0]/tbar[0]/btn[3]").Press 'gets us back to successful listings screen
+            session.FindById("wnd[0]/tbar[0]/btn[3]").press 'gets us back to successful listings screen
             If session.ActiveWindow.Name = "wnd[1]" Then
-                session.FindById("wnd[1]/tbar[0]/btn[0]").Press 'if all sites were locked we get a pop up we need to get past
+                session.FindById("wnd[1]/tbar[0]/btn[0]").press 'if all sites were locked we get a pop up we need to get past
             End If
         End If
         On Error GoTo 0
         
         
-        session.FindById("wnd[0]/tbar[0]/btn[3]").Press 'gets us back to WSM3 input
+        session.FindById("wnd[0]/tbar[0]/btn[3]").press 'gets us back to WSM3 input
         
     End If
     Rows("1:1").AutoFilter
 Next
 
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press 'gets us back to session manager
+session.FindById("wnd[0]/tbar[0]/btn[3]").press 'gets us back to session manager
 Application.Calculate
 ActiveWorkbook.Worksheets("WS_AC").activate
 ActiveSheet.Range("F4").activate
@@ -4372,7 +4372,7 @@ Sub SAP_New_Size_LC_MM42()
 
 Dim WS As Worksheet
 Dim i As Integer
-Dim generic As String
+Dim Generic As String
 Dim Lenscoloradd As Integer
 
 
@@ -4398,41 +4398,41 @@ Lenscoloradd = MsgBox("Are you adding new lens colors? If you select no that mea
 i = 2
 session.FindById("wnd[0]").Maximize
 session.FindById("wnd[0]/tbar[0]/okcd").Text = "mm42"
-session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").sendVKey 0
 
 
 'Loop through rows 2 till the end of column and enter new sizes
 Do Until WS.Range("M" & i) = ""
-    generic = WS.Range("M" & i).Text
-    session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = generic
-    session.FindById("wnd[0]/tbar[1]/btn[19]").Press
+    Generic = WS.Range("M" & i).Text
+    session.FindById("wnd[0]/usr/ctxtRMMW1-MATNR").Text = Generic
+    session.FindById("wnd[0]/tbar[1]/btn[19]").press
     session.FindById("wnd[0]/usr/tblSAPLMGMWTAB_CONT_0100").GetAbsoluteRow(0).Selected = True
-    session.FindById("wnd[0]").SendVKey 0
-    session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB2:SAPLMGD2:1030/btnSA_MERKMALE").Press
+    session.FindById("wnd[0]").sendVKey 0
+    session.FindById("wnd[0]/usr/tabsTABSPR1/tabpSP01/ssubTABFRA1:SAPLMGMW:2008/subSUB2:SAPLMGD2:1030/btnSA_MERKMALE").press
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "=aufs"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     If Lenscoloradd = vbYes Then
         session.FindById("wnd[1]/usr/txtCLHP-CR_STATUS_TEXT").Text = "Lens"
     Else
         session.FindById("wnd[1]/usr/txtCLHP-CR_STATUS_TEXT").Text = "Size"
     End If
-    session.FindById("wnd[1]").SendVKey 0
+    session.FindById("wnd[1]").sendVKey 0
     session.FindById("wnd[2]/usr/cntlGRID1/shellcont/shell").ClickCurrentCell
-    Do Until WS.Range("M" & i).Text <> generic
+    Do Until WS.Range("M" & i).Text <> Generic
         If WS.Range("N" & i).Text <> "" Then
-            session.FindById("wnd[0]/tbar[1]/btn[16]").Press
+            session.FindById("wnd[0]/tbar[1]/btn[16]").press
             session.FindById("wnd[0]/usr/sub:SAPLCTMS:0100/ctxtRCTMS-MWERT[0,35]").Text = Left(WS.Range("N" & i).Text, 6)
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If
         i = i + 1
     Loop
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
-    session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
+    session.FindById("wnd[0]/tbar[0]/btn[11]").press
         
 Loop
 
 'Exit MM42 to get back to Session manager home screen
-session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 
 If Lenscoloradd = vbYes Then

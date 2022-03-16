@@ -192,7 +192,7 @@ If Not RanCMD Then
         If session.Info.Transaction = "S000" Then
             session.FindById("wnd[0]/usr/txtRSYST-MANDT").Text = "100"
             session.FindById("wnd[0]/usr/txtRSYST-BNAME").Text = user
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
         End If
     
         On Error GoTo 0
@@ -212,7 +212,7 @@ End If 'did we run CMD prompt?
 'If we are logged onto desired client on another machine log that machine out
 If session.ActiveWindow.Text = "License Information for Multiple Logons" Then
     session.FindById("wnd[1]/usr/radMULTI_LOGON_OPT1").Select
-    session.FindById("wnd[1]").SendVKey 0
+    session.FindById("wnd[1]").sendVKey 0
 End If
 'Loop though open sessions of desired client to either create new session to set to existing home transation
 
@@ -243,7 +243,7 @@ End If
                     
                     Exit Sub
                 Else
-                    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[3]").press
                 End If
                 
             End If

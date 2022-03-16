@@ -1,4 +1,4 @@
-Attribute VB_Name = "A1_New_Char_Lookup_v044"
+Attribute VB_Name = "A1_New_Char_Lookup_v045"
 Option Explicit
 
 'Customer Site
@@ -1952,12 +1952,11 @@ Dim starttime As Date
 Dim selectfromtimer As String
 Dim SQLGenList As String
 Dim SQLVendor As String
-Dim generic As Variant
+Dim Generic As Variant
 
 
-
-
-    
+    Set AWB = ActiveWorkbook
+    Set ACSheet = AWB.Worksheets("Article Create")
     Set pfusheet = AWB.Worksheets("PFUs")
     Set cn = CreateObject("ADODB.Connection")
     Set rs = CreateObject("ADODB.Recordset")
@@ -1967,6 +1966,15 @@ Dim generic As Variant
     errMsg = "Likely Timed out checking Generic PIRs.  Please validate them manually."
     
     'Fill Generic Dictionary GenDIc with all our generics we are going to check
+    
+    i = 11
+    
+    Do Until ACSheet.Range("G" & i) = ""
+        If Trim(UCase(ACSheet.Range("E" & i).Value)) = "NEW" Then
+            ACSheet.Range("E" & i).ClearContents
+        End If
+        i = i + 1
+    Loop
     
     i = 11
             
@@ -1982,8 +1990,8 @@ Dim generic As Variant
     'skip query if GenDic.Count = 0
     'No add variants then no need to ping snowflake
     If GenDic.Count > 0 Then
-    For Each generic In GenDic
-        SQLGenList = SQLGenList & "'" & generic & "', "
+    For Each Generic In GenDic
+        SQLGenList = SQLGenList & "'" & Generic & "', "
     Next
     
     'finish SQLGenList and SQLVendor
@@ -2050,8 +2058,8 @@ Dim generic As Variant
             AddVendorSheet.Range("B1").Value = "Vendor"
             'Drop out anything where we found a match
             j = 2 'row to insert to in ++'d per iteration
-            For Each generic In GenDic
-                    AddVendorSheet.Range("A" & j).Value = generic
+            For Each Generic In GenDic
+                    AddVendorSheet.Range("A" & j).Value = Generic
                     AddVendorSheet.Range("B" & j).Value = ACSheet.Range("I2").Value
                     j = j + 1
             Next

@@ -203,7 +203,7 @@ Dim tempkey As String
             If Not AVDic.Exists(rsArray(0, i)) Then
                 AVDic.Add rsArray(0, i), bigAVDic(rsArray(0, i))
             End If
-            ReportIssue issue:="DUPE", generic:=rsArray(0, i), desc1:=dvkey, desc2:=rsArray(1, i)
+            ReportIssue issue:="DUPE", Generic:=rsArray(0, i), desc1:=dvkey, desc2:=rsArray(1, i)
             'MsgBox dvkey & " already exists!  We cannot recreate it!"
         End If
         If sizeCheckDic.Exists(sckey) Then
@@ -218,7 +218,7 @@ Dim tempkey As String
         'Error.  We should have matching data here. but let's just report once.
             For Each fe In charProfDic.keys
                 If Left(fe, 6) = rsArray(0, i) Then
-                    ReportIssue issue:="CHARPROF", generic:=rsArray(0, i), desc1:=charProfDic(fe), desc2:=rsArray(7, i)
+                    ReportIssue issue:="CHARPROF", Generic:=rsArray(0, i), desc1:=charProfDic(fe), desc2:=rsArray(7, i)
                     charProfDic.Remove fe
                     Exit For
                 End If
@@ -235,7 +235,7 @@ Dim tempkey As String
                 If Left(fe, InStr(8, fe, "|")) = tempkey Then
                 'If it looks like the same color description and generic, but does not match exactly (checked above)
                 'that is a problem
-                    ReportIssue issue:="CFAM", generic:=rsArray(0, i), desc1:=Right(fe, Len(fe) - 7), desc2:=Right(cckey, Len(cckey) - 7)
+                    ReportIssue issue:="CFAM", Generic:=rsArray(0, i), desc1:=Right(fe, Len(fe) - 7), desc2:=Right(cckey, Len(cckey) - 7)
                     colorCheckDic.Remove fe 'remove this entry so we don't multi-report the same thing
                     Exit For
                 End If
@@ -490,7 +490,7 @@ Dim rep2 As String
             Else
                 rep2 = ""
             End If
-            ReportIssue issue:="NEWSIZE", generic:=style, desc1:=rep1, desc2:=rep2
+            ReportIssue issue:="NEWSIZE", Generic:=style, desc1:=rep1, desc2:=rep2
         Next i
     End If
 
@@ -500,7 +500,7 @@ Set exSizeDic = Nothing
 Set newSizeDic = Nothing
 End Function
 
-Private Function ReportIssue(issue As String, generic As Variant, desc1 As Variant, desc2 As Variant)
+Private Function ReportIssue(issue As String, Generic As Variant, desc1 As Variant, desc2 As Variant)
 '******************************************************************************
 ' Ummm... take an issue and log it?
 ' Create an "error" sheet if it does not exist within wb
@@ -576,7 +576,7 @@ On Error GoTo 0
     lastRow = issuesheet.Cells(Rows.Count, c1).End(xlUp).row + 1
     
     'log the issue
-    issuesheet.Cells(lastRow, c1).Value = generic
+    issuesheet.Cells(lastRow, c1).Value = Generic
     issuesheet.Cells(lastRow, c2).Value = desc1
     issuesheet.Cells(lastRow, c3).Value = desc2
 

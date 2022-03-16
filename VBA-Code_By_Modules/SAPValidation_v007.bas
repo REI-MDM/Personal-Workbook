@@ -1,8 +1,9 @@
-Attribute VB_Name = "SAPValidation_v006"
+Attribute VB_Name = "SAPValidation_v007"
 Option Explicit
 
 Sub SAP_Validation_ZSE16N()
 'Brian Combs - 2021
+'Brian Combs & Carly Kane - 2022 repaired Assortment Maintain Removal Validation
 
 'This sub will call the appropriate sub for different templates. Currently works for:
     'Maintain Promos
@@ -170,44 +171,44 @@ Private Sub Validate_Maintain_Promo()
 'Navigate to ZSE16N
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/NZSE16N"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     
 'Enter WAKP in the Table field
     session.FindById("wnd[0]/usr/ctxtGD-TAB").Text = "WAKP"
     session.FindById("wnd[0]/usr/ctxtGD-TAB").CaretPosition = 4
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     
 'GoTo > Variants > Get > Variant PULL_PROMO_DATA
     session.FindById("wnd[0]/mbar/menu[2]/menu[0]/menu[0]").Select
     session.FindById("wnd[1]/usr/ctxtGS_SE16N_LT-NAME").Text = "PULL_PROMO_DATA"
     session.FindById("wnd[1]/usr/ctxtGS_SE16N_LT-NAME").SetFocus
     session.FindById("wnd[1]/usr/ctxtGS_SE16N_LT-NAME").CaretPosition = 15
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
    
 'Press the More button(Arrow) - Promotion
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").press
 
 'Press the Clipboard button
     PromoRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
 
 'Press the Transfer Data (Execute) button
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
     
 'Press the More button(Arrow) - Article
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").press
 
 'Press the Clipboard button
     VarRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
     
 'Press the Transfer Data (Execute) button
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 
 'Press the Online (Execute) button
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 
 'Press Export button
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
@@ -220,13 +221,13 @@ Private Sub Validate_Maintain_Promo()
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
 
 'Press Continue (Green Check)
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 'Press Exit
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
 
 'Press Exit
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
 
 'Call ENDSAPCON
     EndSAPCON
@@ -242,7 +243,7 @@ Private Sub Validate_Maintain_Promo()
     On Error Resume Next
         Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
         TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
-        Semicolon:=False, Comma:=False, space:=False, Other:=True, OtherChar _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
         :="|", FieldInfo:=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, _
         1)), TrailingMinusNumbers:=True
     Resume Next
@@ -419,30 +420,30 @@ Private Sub Validate_Temp_Listings()
 'Navigate to ZSE16N
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzse16n"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 
 'Enter WLK1 in the Table field
     session.FindById("wnd[0]/usr/ctxtGD-TAB").Text = "WLK1"
     session.FindById("wnd[0]/usr/ctxtGD-TAB").CaretPosition = 4
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 
 'Press the More button(Arrow) - Assortment
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").press
 
 'Press the Clipboard button
     SiteRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 
 'Press the More button(Arrow) - Article
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").press
 
 'Press the Clipboard button
     VarRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 
 'Clear max number of hits
     session.FindById("wnd[0]/usr/txtGD-MAX_LINES").Text = ""
@@ -450,7 +451,7 @@ Private Sub Validate_Temp_Listings()
     session.FindById("wnd[0]/usr/txtGD-MAX_LINES").CaretPosition = 0
 
 'Press the Transfer Data (Execute) button
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 
 'Press the Export button
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
@@ -463,11 +464,11 @@ Private Sub Validate_Temp_Listings()
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
 
 'Press Continue (Green Check)
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 'Press Exit
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
 
 'Call ENDSAPCON
     EndSAPCON
@@ -483,7 +484,7 @@ Private Sub Validate_Temp_Listings()
     On Error Resume Next
         Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
         TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
-        Semicolon:=False, Comma:=False, space:=False, Other:=True, OtherChar _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
         :="|", FieldInfo:=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, _
         1)), TrailingMinusNumbers:=True
     Resume Next
@@ -599,7 +600,7 @@ Private Sub Validate_PSI_VIF_Temp_Listings()
 'Navigate to SQ01
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nsq01"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 
 'Environment
     session.FindById("wnd[0]/mbar/menu[5]/menu[0]").Select
@@ -608,18 +609,18 @@ Private Sub Validate_PSI_VIF_Temp_Listings()
     session.FindById("wnd[1]/usr/radRAD1").Select
 
 'Standard area
-    session.FindById("wnd[1]/tbar[0]/btn[2]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[2]").press
 
 'Other user group
-    session.FindById("wnd[0]/tbar[1]/btn[19]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[19]").press
 
 'ZMD > Choose
     session.FindById("wnd[1]/usr/cntlGRID1/shellcont/shell").SelectedRows = "0"
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 'ARTICLECHARVAL > Execute
     session.FindById("wnd[0]/usr/cntlGRID_CONT0050/shellcont/shell").SelectedRows = "0"
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 
 'Enter Characteristic -PRODUCTSOURCEINDICATOR, Class Type - 026, Characteristic Value - 1
     session.FindById("wnd[0]/usr/txtSP$00003-LOW").Text = "PRODUCTSOURCEINDICATOR"
@@ -627,7 +628,7 @@ Private Sub Validate_PSI_VIF_Temp_Listings()
     session.FindById("wnd[0]/usr/txtSP$00005-LOW").Text = "1"
     session.FindById("wnd[0]/usr/txtSP$00005-LOW").SetFocus
     session.FindById("wnd[0]/usr/txtSP$00005-LOW").CaretPosition = 1
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 
 'Press the Export button
     session.FindById("wnd[0]/usr/cntlCONTAINER/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
@@ -638,16 +639,16 @@ Private Sub Validate_PSI_VIF_Temp_Listings()
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
 
 'Press green check
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 
 'Paste into valid sheet
     ValidSheet.Select
     ValidSheet.Range("AA1").PasteSpecial
 
 'Press exit
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
-    session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
+    session.FindById("wnd[0]/tbar[0]/btn[15]").press
 
 'Call ENDSAPCON
     EndSAPCON
@@ -839,44 +840,44 @@ Private Sub Validate_Asst_Create()
 'ZSE16N > WRST Query Stuff
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzse16n"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Enter WRST into Table field
     session.FindById("wnd[0]/usr/ctxtGD-TAB").Text = "WRST"
     session.FindById("wnd[0]/usr/ctxtGD-TAB").CaretPosition = 4
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Press Assortment - More (Arros)
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").press
 'Press Delete All Entries
-    session.FindById("wnd[1]/tbar[0]/btn[34]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[34]").press
 'Press Upload from Clipboard
     AsstWildRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
  'Press Transfer Data (Execute)
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 'Press Description - More (Arrows)
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,3]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,3]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,3]").press
 'Press Delete All Entries
-    session.FindById("wnd[1]/tbar[0]/btn[34]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[34]").press
 'Press Upload from Clipboard
     AsstNameRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
 'Press Transfer Data (Execute)
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 'Press Online (Execute)
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 'Press Export
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
 'In the clipboard
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").SelectContextMenuItem "&PC"
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").Select
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'Press back (Green arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 'Press back (Green arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 'END SAP STUFF--------------------------------------------------------------
 
@@ -889,7 +890,7 @@ Private Sub Validate_Asst_Create()
     On Error Resume Next
         Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
         TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
-        Semicolon:=False, Comma:=False, space:=False, Other:=True, OtherChar _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
         :="|", FieldInfo:=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, _
         1)), TrailingMinusNumbers:=True
     On Error GoTo 0
@@ -954,7 +955,7 @@ Private Sub Validate_Asst_Create()
 'Navigate to ZSE16N
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzse16n"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Enter WRSZ into Table field
     session.FindById("wnd[0]/usr/ctxtGD-TAB").Text = "WRSZ"
 'Clear Maximum no. of hits
@@ -962,19 +963,19 @@ Private Sub Validate_Asst_Create()
     session.FindById("wnd[0]/usr/txtGD-MAX_LINES").SetFocus
     session.FindById("wnd[0]/usr/txtGD-MAX_LINES").CaretPosition = 0
 'Hit Enter
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Press Assortment - More (Arrows)
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").press
 'Press (Delete) All Entries
-    session.FindById("wnd[1]/tbar[0]/btn[34]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[34]").press
 'Press Upload From Clipboard
     AsstNumRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
 'Press Transfer Data (Execute)
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 'Press Online (Execute)
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 'Export
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
 'In the clipboard
@@ -982,11 +983,11 @@ Private Sub Validate_Asst_Create()
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").Select
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
 'Green check
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'Press back (Green Arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 'Press back (Green Arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 'Call ENDSAPCON
     EndSAPCON
@@ -1000,7 +1001,7 @@ Private Sub Validate_Asst_Create()
     On Error Resume Next
         Selection.TextToColumns Destination:=Range("M1"), DataType:=xlDelimited, _
         TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
-        Semicolon:=False, Comma:=False, space:=False, Other:=True, OtherChar _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
         :="|", FieldInfo:=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, _
         1)), TrailingMinusNumbers:=True
     On Error GoTo 0
@@ -1121,7 +1122,8 @@ Sub Validate_Asst_Maint()
     Dim AddMatchRange As Range
     Dim RemMatchRange As Range
     Dim ErrorsFound As Boolean
-    
+    Dim RemDateRange As Range
+    Dim AddDateRange As Range
     
 'Turn off display alerts
     Application.ScreenUpdating = False
@@ -1200,34 +1202,34 @@ Sub Validate_Asst_Maint()
 'ZSE16N > WRST Query Stuff
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzse16n"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Enter WRST into Table field
     session.FindById("wnd[0]/usr/ctxtGD-TAB").Text = "WRST"
     session.FindById("wnd[0]/usr/ctxtGD-TAB").CaretPosition = 4
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Press Assortment - More (Arros)
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,2]").press
 'Press Delete All Entries
-    session.FindById("wnd[1]/tbar[0]/btn[34]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[34]").press
 'Press Upload from Clipboard
     HCAsstNumRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
  'Press Transfer Data (Execute)
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 'Press Online (Execute)
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 'Press Export
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
 'In the clipboard
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").SelectContextMenuItem "&PC"
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").Select
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'Press back (Green arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 'Press back (Green arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 'END SAP STUFF--------------------------------------------------------------
 
@@ -1240,7 +1242,7 @@ Sub Validate_Asst_Maint()
     On Error Resume Next
         Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
         TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
-        Semicolon:=False, Comma:=False, space:=False, Other:=True, OtherChar _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
         :="|", FieldInfo:=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, _
         1)), TrailingMinusNumbers:=True
     On Error GoTo 0
@@ -1291,10 +1293,16 @@ Sub Validate_Asst_Maint()
     Set AddListRange = ValidSheet.Range("G6:G" & lastRow)
     Set AddVLookRange = ValidSheet.Range("J6:J" & lastRow)
     Set AddMatchRange = ValidSheet.Range("K6:K" & lastRow)
+    Set AddDateRange = ValidSheet.Range("L6:L" & lastRow)
+
+'Loop through AddDateRange and print END OF TIME
+    For Each singleCell In AddDateRange
+        singleCell.Value = "END OF TIME"
+    Next
 
 'Loop through BigListRange and create an Assortment/Site key
     For Each singleCell In AddListRange
-        ValidSheet.Range("I" & singleCell.row).Value = "=TEXTJOIN(""|"",TRUE,G" & singleCell.row & ",H" & singleCell.row & ")"
+        ValidSheet.Range("I" & singleCell.row).Value = "=TEXTJOIN(""|"",TRUE,G" & singleCell.row & ",H" & singleCell.row & ",L" & singleCell.row & ")"
     Next
 
 'Create remove list--------------------
@@ -1332,18 +1340,25 @@ Sub Validate_Asst_Maint()
     Set RemListRange = ValidSheet.Range("M6:M" & lastRow)
     Set RemVLookRange = ValidSheet.Range("P6:P" & lastRow)
     Set RemMatchRange = ValidSheet.Range("Q6:Q" & lastRow)
-
+    Set RemDateRange = ValidSheet.Range("R6:R" & lastRow)
+    
+'Loop through RemDateRange and print REMOVED
+    For Each singleCell In RemDateRange
+       singleCell.Value = "REMOVED"
+    Next
+    
 'Loop through RemListRange and create an Assortment/Site key
     For Each singleCell In RemListRange
-        ValidSheet.Range("O" & singleCell.row).Value = "=TEXTJOIN(""|"",TRUE,M" & singleCell.row & ",N" & singleCell.row & ")"
+        ValidSheet.Range("O" & singleCell.row).Value = "=TEXTJOIN(""|"",TRUE,M" & singleCell.row & ",N" & singleCell.row & ",R" & singleCell.row & ")"
     Next
+    
 
 'SAP STUFF-----------------------------------------------------------------
     
 'Navigate to ZSE16N
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nzse16n"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Enter WRSZ into Table field
     session.FindById("wnd[0]/usr/ctxtGD-TAB").Text = "WRSZ"
 'Clear Maximum no. of hits
@@ -1351,19 +1366,19 @@ Sub Validate_Asst_Maint()
     session.FindById("wnd[0]/usr/txtGD-MAX_LINES").SetFocus
     session.FindById("wnd[0]/usr/txtGD-MAX_LINES").CaretPosition = 0
 'Hit Enter
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
 'Press Assortment - More (Arrows)
     session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").SetFocus
-    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").Press
+    session.FindById("wnd[0]/usr/tblSAPLZBC_210_E_SE16NSELFIELDS_TC/btnPUSH[4,1]").press
 'Press (Delete) All Entries
-    session.FindById("wnd[1]/tbar[0]/btn[34]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[34]").press
 'Press Upload From Clipboard
     AsstNumRange.Copy
-    session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[24]").press
 'Press Transfer Data (Execute)
-    session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[8]").press
 'Press Online (Execute)
-    session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+    session.FindById("wnd[0]/tbar[1]/btn[8]").press
 'Export
     session.FindById("wnd[0]/usr/cntlRESULT_LIST/shellcont/shell").PressToolbarContextButton "&MB_EXPORT"
 'In the clipboard
@@ -1371,11 +1386,11 @@ Sub Validate_Asst_Maint()
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").Select
     session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[4,0]").SetFocus
 'Green check
-    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+    session.FindById("wnd[1]/tbar[0]/btn[0]").press
 'Press back (Green Arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 'Press back (Green Arrow)
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
 
 'Call ENDSAPCON
     EndSAPCON
@@ -1389,7 +1404,7 @@ Sub Validate_Asst_Maint()
     On Error Resume Next
         Selection.TextToColumns Destination:=Range("M1"), DataType:=xlDelimited, _
         TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
-        Semicolon:=False, Comma:=False, space:=False, Other:=True, OtherChar _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
         :="|", FieldInfo:=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, _
         1)), TrailingMinusNumbers:=True
     On Error GoTo 0
@@ -1406,7 +1421,7 @@ Sub Validate_Asst_Maint()
 
 'Loop through WRSZ Range and create assortment/site key
     For Each singleCell In WRSZRange
-        ValidSheet.Range("AK" & singleCell.row).Value = "=TEXTJOIN(""|"",TRUE,T" & singleCell.row & ",V" & singleCell.row & ")"
+        ValidSheet.Range("AK" & singleCell.row).Value = "=TEXTJOIN(""|"",TRUE,T" & singleCell.row & ",V" & singleCell.row & ",IF(AC" & singleCell.row & "=2958465,""END OF TIME"", ""REMOVED"")" & ")"
     Next
 
 'Drop in some formulas in Column J to find a match between Requst key and WRSZ key
@@ -1451,7 +1466,7 @@ Sub Validate_Asst_Maint()
     If ValidSheet.Range("M6") <> "" Then
         For Each singleCell In RemMatchRange
             If ErrorsFound = False Then
-                If singleCell.Text = "TRUE" Then
+                If singleCell.Text <> "TRUE" Then
                 'Fill the cell red
                     singleCell.Interior.ColorIndex = 3
                     ErrorsFound = True
@@ -1510,6 +1525,10 @@ End Sub
 'v004 - Validates Assortment Creates
 'v005 - Validate Assortment Create bug fix
 'v006 - Validates Assortment Maintains
+'v007 - Validates Assortment Maintain site removals
+
+
+
 
 
 

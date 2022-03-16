@@ -180,10 +180,10 @@ Dim logrange As Range
         session.FindById("wnd[0]").resizeWorkingPane 133, 40, False
         'input tcode and press "enter"
         session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwak12"
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         'enter in promo number and press "enter"
         session.FindById("wnd[0]/usr/ctxtWAKHD-AKTNR").Text = promo
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
 '******************************************************************************
 ' Load up the promo
 '******************************************************************************
@@ -193,13 +193,13 @@ Dim logrange As Range
         On Error Resume Next
         'Debug.Print "no items " & Err.Number
         'If Err.Number = 0 Then GoTo NoItems
-        session.FindById("wnd[1]/tbar[0]/btn[17]").Press
+        session.FindById("wnd[1]/tbar[0]/btn[17]").press
         'Debug.Print "no items " & Err.Number
         'push the "multiselect" button?
-        session.FindById("wnd[2]/usr/btn%_LT_ARTNR_%_APP_%-VALU_PUSH").Press
+        session.FindById("wnd[2]/usr/btn%_LT_ARTNR_%_APP_%-VALU_PUSH").press
         If err.Number = 619 Then 'The control could not be found by id.
             'click the button
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
         Else
             'Copy our "generics" we're adding/maintaining.  Requires that data to be in
             'column "H"
@@ -207,12 +207,12 @@ Dim logrange As Range
             Selection.Copy
            
             'pastey-clipboard button
-            session.FindById("wnd[3]/tbar[0]/btn[24]").Press
+            session.FindById("wnd[3]/tbar[0]/btn[24]").press
             
             'okay, okay, okay
-            session.FindById("wnd[3]/tbar[0]/btn[8]").Press
-            session.FindById("wnd[2]/tbar[0]/btn[8]").Press
-            session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+            session.FindById("wnd[3]/tbar[0]/btn[8]").press
+            session.FindById("wnd[2]/tbar[0]/btn[8]").press
+            session.FindById("wnd[1]/tbar[0]/btn[0]").press
         End If
         err.Clear
         On Error GoTo 0
@@ -240,12 +240,12 @@ Dim logrange As Range
                 'input this batch of 5K
                 
                 '"flower tool"
-                session.FindById("wnd[0]/usr/subBUTTONS:SAPMWAKA:8150/btnSELECT").Press
+                session.FindById("wnd[0]/usr/subBUTTONS:SAPMWAKA:8150/btnSELECT").press
                 'Multi-select
-                session.FindById("wnd[1]/usr/btn%_LT_MATNR_%_APP_%-VALU_PUSH").Press
+                session.FindById("wnd[1]/usr/btn%_LT_MATNR_%_APP_%-VALU_PUSH").press
                 
                 'clear out any previous entries
-                session.FindById("wnd[2]/tbar[0]/btn[16]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[16]").press
                 
                 'copy our variants.
                 pws.activate
@@ -253,11 +253,11 @@ Dim logrange As Range
                 Selection.Copy
                 
                 'pastey button (need items in clipboard!)
-                session.FindById("wnd[2]/tbar[0]/btn[24]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[24]").press
                 
                 'okay, okay
-                session.FindById("wnd[2]/tbar[0]/btn[8]").Press
-                session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+                session.FindById("wnd[2]/tbar[0]/btn[8]").press
+                session.FindById("wnd[1]/tbar[0]/btn[8]").press
                 pws.Range("AQ" & tempstart & ":AQ" & tempend).Value = "Items Added via flower tool at: " & Format(Now, "mm/dd/yyyy hh:mm:ss")
                 'bump up our temp start and end
                 tempstart = tempend + 1
@@ -278,14 +278,14 @@ Dim logrange As Range
                     'but mostly so we can detect needed variant level updates
                     curPrice = pws.Range("P" & i).Value
                     'press searchy button
-                    session.FindById("wnd[0]/usr/subBUTTONS:SAPMWAKA:8150/btnSEARCH").Press
+                    session.FindById("wnd[0]/usr/subBUTTONS:SAPMWAKA:8150/btnSEARCH").press
                     'here, if we have a price warning, we get a "control ID not found" error
                     On Error Resume Next
                     'input the article
                     session.FindById("wnd[1]/usr/ctxtWAKPD-ARTNR").Text = pws.Range("H" & i).Value
                     If err.Number <> 0 Then
                         'we had an error - should try to log it
-                        session.FindById("wnd[0]").SendVKey 0
+                        session.FindById("wnd[0]").sendVKey 0
                         session.FindById("wnd[1]/usr/ctxtWAKPD-ARTNR").Text = pws.Range("H" & i).Value
                         pws.Range("AS" & i - 1).Value = "Full price for generic lower than promo price" ' & session.findById("wnd[0]/usr/tblSAPMWAKASCHNERF/txtWAKPD-PLVKP[1,0]").Text
                         err.Clear
@@ -295,7 +295,7 @@ Dim logrange As Range
                     'I don't know what this is doing really
                     'session.findById("wnd[1]/usr/ctxtWAKPD-ARTNR").caretPosition = 6
                     'press the "searchy this item" button
-                    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+                    session.FindById("wnd[1]/tbar[0]/btn[0]").press
                     'Input the price
                     session.FindById("wnd[0]/usr/tblSAPMWAKASCHNERF/txtWAKPD-PLVKP[5,0]").Text = curPrice
                     pws.Range("AR" & i).Value = "Generic level price input to SAP at:" & Format(Now, "mm/dd/yyyy hh:mm:ss")
@@ -323,14 +323,14 @@ Dim logrange As Range
                 curPrice = pws.Range("P" & i).Value
                 If varPriceDic.Exists(gen) Then
                     'input variant pricing
-                    session.FindById("wnd[0]/usr/subBUTTONS:SAPMWAKA:8150/btnSEARCH").Press
+                    session.FindById("wnd[0]/usr/subBUTTONS:SAPMWAKA:8150/btnSEARCH").press
                     'here, if we have a price warning, we get a "control ID not found" error
                     On Error Resume Next
                     'input the article
                     session.FindById("wnd[1]/usr/ctxtWAKPD-ARTNR").Text = pws.Range("I" & i).Value
                     If err.Number <> 0 Then
                         'we had an error - should try to log it
-                        session.FindById("wnd[0]").SendVKey 0
+                        session.FindById("wnd[0]").sendVKey 0
                         session.FindById("wnd[1]/usr/ctxtWAKPD-ARTNR").Text = pws.Range("I" & i).Value
                         pws.Range("AS" & i - 1).Value = "Full price for Variant lower than promo price"
                         err.Clear
@@ -340,7 +340,7 @@ Dim logrange As Range
                     'I don't know what this is doing really
                     'session.findById("wnd[1]/usr/ctxtWAKPD-ARTNR").caretPosition = 6
                     'press the "searchy this item" button
-                    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+                    session.FindById("wnd[1]/tbar[0]/btn[0]").press
                     'Input the price
                     session.FindById("wnd[0]/usr/tblSAPMWAKASCHNERF/txtWAKPD-PLVKP[5,0]").Text = curPrice
                     pws.Range("AR" & i).Value = "Variant level price input to SAP at:" & Format(Now, "mm/dd/yyyy hh:mm:ss")
@@ -352,9 +352,9 @@ Dim logrange As Range
         Set varPriceDic = Nothing
         
         'press the savey button
-        session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+        session.FindById("wnd[0]/tbar[0]/btn[11]").press
         If session.FindById("wnd[0]/sbar").MessageType = "W" Then
-        session.FindById("wnd[0]").SendVKey 0
+        session.FindById("wnd[0]").sendVKey 0
         End If
         'Log
         If UCase(session.FindById("wnd[0]/sbar").Text) Like "*SAVED*" Then
@@ -386,7 +386,7 @@ NextFE:
         
             'goto WAK16
             session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nwak16"
-            session.FindById("wnd[0]").SendVKey 0
+            session.FindById("wnd[0]").sendVKey 0
             'toggle preset checkboxes in WAK16
             session.FindById("wnd[0]/usr/chkR_FEHLP").Selected = True
             session.FindById("wnd[0]/usr/chkR_DRUKZ").Selected = False
@@ -395,14 +395,14 @@ NextFE:
             'probably not needed
             'session.findById("wnd[0]/usr/chkR_DRUKZ").SetFocus
             'press the "input articles" button
-            session.FindById("wnd[0]/usr/btn%_RT_MATNR_%_APP_%-VALU_PUSH").Press
+            session.FindById("wnd[0]/usr/btn%_RT_MATNR_%_APP_%-VALU_PUSH").press
         
             'press delete to clear any prior entries
-            session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[16]").press
             'press "paste"
-            session.FindById("wnd[1]/tbar[0]/btn[24]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[24]").press
             'press Okay"
-            session.FindById("wnd[1]/tbar[0]/btn[8]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[8]").press
             
             'enable parallel processing if more than 1000 variants (arbitrarily chosen)
             If endRow - startRow > 1000 Then
@@ -415,11 +415,11 @@ NextFE:
             'execute in background
             session.FindById("wnd[0]/mbar/menu[0]/menu[2]").Select
             'green checkbox
-            session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[13]").press
             'immediate button (I think)
-            session.FindById("wnd[1]/usr/btnSOFORT_PUSH").Press
+            session.FindById("wnd[1]/usr/btnSOFORT_PUSH").press
             'save button
-            session.FindById("wnd[1]/tbar[0]/btn[11]").Press
+            session.FindById("wnd[1]/tbar[0]/btn[11]").press
             
             'Log
             logrange.SpecialCells(xlCellTypeVisible).Value = "WAK16 Activation in background: " & Format(Now, "mm/dd/yyyy hh:mm:ss")
@@ -432,7 +432,7 @@ NextFE:
     
     End If
     'Go Home!
-    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+    session.FindById("wnd[0]/tbar[0]/btn[3]").press
     EndSAPCON
 
     CoRegisterMessageFilter lMsgFilter, lMsgFilter

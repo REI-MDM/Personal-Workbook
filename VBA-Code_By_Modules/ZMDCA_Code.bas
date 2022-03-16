@@ -46,7 +46,7 @@ Sub ZMDCA_Code()
     Dim dict As Object
     Dim uniquegen As String
     Dim ZMDCAval As String
-    Dim generic As String
+    Dim Generic As String
     Dim Errors As Boolean
     Dim rowCount As Integer
     Dim tableRow As Integer
@@ -67,7 +67,7 @@ Sub ZMDCA_Code()
     'type /ZMDCA into command bar and hit enter
     session.FindById("wnd[0]").Maximize
     session.FindById("wnd[0]/tbar[0]/okcd").Text = "/nZMDCA"
-    session.FindById("wnd[0]").SendVKey 0
+    session.FindById("wnd[0]").sendVKey 0
     
     uniquegen = " "
     ZMDCAval = " "
@@ -88,33 +88,33 @@ Sub ZMDCA_Code()
             'Test if generic has a ZMDCA value to add
             ZMDCAval = Cells(i, "DC").Value
             If ZMDCAval <> "" Then
-                generic = Cells(i, "C").Value
+                Generic = Cells(i, "C").Value
                 ' New Entry Button
-                session.FindById("wnd[0]/tbar[1]/btn[5]").Press
+                session.FindById("wnd[0]/tbar[1]/btn[5]").press
                 ' Article Number
-                session.FindById("wnd[0]/usr/tblSAPLZMM_ZMDCA_TBLGTCTRL_ZMDCA/ctxtZMDCA-MATNR[0,0]").Text = generic
+                session.FindById("wnd[0]/usr/tblSAPLZMM_ZMDCA_TBLGTCTRL_ZMDCA/ctxtZMDCA-MATNR[0,0]").Text = Generic
                 ' Prop 65 Value
                 session.FindById("wnd[0]/usr/tblSAPLZMM_ZMDCA_TBLGTCTRL_ZMDCA/txtZMDCA-CA_INDICATOR[1,0]").Text = ZMDCAval
                 ' Save Button
-                session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                session.FindById("wnd[0]/tbar[0]/btn[11]").press
                 
                 'If error message in status bar, generic already exists in table
                 If session.FindById("wnd[0]/sbar").MessageType = "E" Then
                     ' Cancel Button
-                    session.FindById("wnd[0]/tbar[0]/btn[12]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[12]").press
                     ' "Yes" to confirm Cancel
-                    session.FindById("wnd[1]/usr/btnSPOP-OPTION1").Press
+                    session.FindById("wnd[1]/usr/btnSPOP-OPTION1").press
                     ' Back to ZMDCA Table
-                    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[3]").press
                     ' Position Button
-                    session.FindById("wnd[0]/usr/btnVIM_POSI_PUSH").Press
+                    session.FindById("wnd[0]/usr/btnVIM_POSI_PUSH").press
                     ' Article number in search field
-                    session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").Text = generic
+                    session.FindById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").Text = Generic
                     ' Check Mark button
-                    session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+                    session.FindById("wnd[1]/tbar[0]/btn[0]").press
                     
                     'Test if generic is already in table
-                    If session.FindById("wnd[0]/usr/tblSAPLZMM_ZMDCA_TBLGTCTRL_ZMDCA/ctxtZMDCA-MATNR[0,0]").Text = generic Then
+                    If session.FindById("wnd[0]/usr/tblSAPLZMM_ZMDCA_TBLGTCTRL_ZMDCA/ctxtZMDCA-MATNR[0,0]").Text = Generic Then
                         ' If the update = current entry, do nothing
                         If session.FindById("wnd[0]/usr/tblSAPLZMM_ZMDCA_TBLGTCTRL_ZMDCA/txtZMDCA-CA_INDICATOR[1,0]").Text <> ZMDCAval Then
                             ' If update <> current entry, change entry to 3
@@ -122,19 +122,19 @@ Sub ZMDCA_Code()
                             ' Log Update Success
                             Cells(i + rowCount, "D").Value = 3
                             ' Save Button
-                            session.FindById("wnd[0]/tbar[0]/btn[11]").Press
+                            session.FindById("wnd[0]/tbar[0]/btn[11]").press
                         End If
                         
                         tableRow = tableRow + 1
                         ' Log No Change Success
-                        Cells(tableRow, "C").Value = generic
+                        Cells(tableRow, "C").Value = Generic
                         Cells(tableRow, "D").Interior.ColorIndex = 4
                         
                     ' If not found, mark error
                     Else
                         tableRow = tableRow + 1
                         ' Log Error
-                        Cells(tableRow, "C").Value = generic
+                        Cells(tableRow, "C").Value = Generic
                         Cells(tableRow, "C").Interior.ColorIndex = 3
                         Errors = True
                     End If
@@ -142,26 +142,26 @@ Sub ZMDCA_Code()
                 Else
                     tableRow = tableRow + 1
                     ' Log New Success
-                    Cells(tableRow, "C").Value = generic
+                    Cells(tableRow, "C").Value = Generic
                     Cells(tableRow, "D").Value = ZMDCAval
                     Cells(tableRow, "D").Interior.ColorIndex = 4
                     
                     ' Back to ZMDCA Table
-                    session.FindById("wnd[0]/tbar[0]/btn[3]").Press
+                    session.FindById("wnd[0]/tbar[0]/btn[3]").press
                 End If
             End If
         End If
         Next i
 
     'back to home screen
-    session.FindById("wnd[0]").SendVKey 3
+    session.FindById("wnd[0]").sendVKey 3
 
     EndSAPCON
     ' Completion Message
     If Errors Then
         MsgBox "ERRORS! Check the log table under the article numbers."
     Else
-        Cells(4, 1).Clear
+        Cells(4, 1).Clear 'Clear Prop65 Flag
         MsgBox "All Prop 65 Updates Successful. Check the log table under the article numbers."
     End If
     
